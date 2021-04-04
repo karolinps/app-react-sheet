@@ -63,6 +63,7 @@ const Wrapper = styled.div`
       border-radius: 5px;
       margin: 0.8em 0;
       border: none;
+      outline: none;
     }
     button {
       background: var(--blue-medium);
