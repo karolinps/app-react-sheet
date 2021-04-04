@@ -1,10 +1,11 @@
 import React from "react";
-import Login from "./components/Login/Login";
+// import Login from "./components/Login/Login";
+import Menu from "./components/Menu/Menu";
 
 function App() {
   return (
     <>
-      <Login />
+      <Menu />
     </>
   );
 }
