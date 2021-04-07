@@ -40,6 +40,7 @@ export const data = [
         />
       </svg>
     ),
+    route: "/portfolio",
   },
   {
     title: "Embudo",
@@ -59,6 +60,7 @@ export const data = [
         />
       </svg>
     ),
+    route: "/funnel",
   },
   {
     title: "Estaciones",
@@ -105,6 +107,7 @@ export const data = [
         <rect x="84.5637" width="35.4362" height="35.4362" fill="#317DDE" />
       </svg>
     ),
+    route: "/seasons",
   },
 
   {
@@ -123,6 +126,7 @@ export const data = [
         />
       </svg>
     ),
+    route: "/projects",
   },
   {
     title: "Clientes",
@@ -142,6 +146,7 @@ export const data = [
         />
       </svg>
     ),
+    route: "/customers",
   },
   {
     title: "Indicadores",
@@ -162,6 +167,7 @@ export const data = [
         />
       </svg>
     ),
+    route: "",
   },
   {
     title: "Problemas",
@@ -184,6 +190,7 @@ export const data = [
         />
       </svg>
     ),
+    route: "/problems",
   },
   {
     title: "Equipos",
@@ -209,5 +216,6 @@ export const data = [
         />
       </svg>
     ),
+    route: "",
   },
 ];

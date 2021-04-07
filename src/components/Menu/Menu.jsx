@@ -1,11 +1,16 @@
 import React from "react";
 import styled from "styled-components";
 import { Row, Col } from "antd";
+import { useHistory } from "react-router-dom";
+import Header from "../Default/Header";
 import { data } from "./menu";
 
 function Menu() {
+  const history = useHistory();
+
   return (
     <Wrapper>
+      <Header btnLogout />
       <div className="block-menu">
         <div className="content-menu">
           <h1>Area de Excelencia Operacional</h1>
@@ -13,7 +18,7 @@ function Menu() {
             {data.map((el, i) => {
               return (
                 <Col sm={6} xs={12} key={i}>
-                  <div className="card">
+                  <div className="card" onClick={() => history.push(el.route)}>
                     <div>
                       {el.icon}
                       <p>{el.title}</p>
@@ -32,14 +37,13 @@ function Menu() {
 export default Menu;
 
 const Wrapper = styled.div`
-  height: 100vh;
   @media (max-width: 575px) {
     height: auto;
   }
   .block-menu {
     position: absolute;
-    top: 0em;
-    bottom: 0em;
+    top: 4em;
+    bottom: 1em;
     left: 0em;
     right: 0em;
     display: flex;
