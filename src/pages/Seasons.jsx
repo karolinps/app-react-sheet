@@ -107,7 +107,7 @@ function Seasons() {
         btnLogout
         btnFilter
         btnNewItem
-        titleBtnNewItem={'Nueva Oportunidad'}
+        titleBtnNewItem={"Nueva Oportunidad"}
       />
       <ContainerCounter data={data} />
       <Row className="hidden-xs">
@@ -129,8 +129,8 @@ const Wrapper = styled.div`
   }
 `;
 const Row = styled.div`
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   @media (min-width: 767px) {
     position: absolute;
     right: 1.5em;
@@ -138,10 +138,7 @@ const Row = styled.div`
     bottom: 2em;
     top: 15em;
   }
-}
 `;
 const Col = styled.div`
-  flex: 1 0 18%;
-  margin: 5px;
   position: relative;
 `;

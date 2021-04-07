@@ -3,16 +3,18 @@ import styled from "styled-components";
 import Item from "../Default/Item";
 import PropTypes from "prop-types";
 
-function ContainerCounter(props) {
+function ContainerItems(props) {
   const { data } = props;
   return (
     <Wrapper>
       <Row>
         {data.map((el, i) => {
           return (
-            <Col key={i} xl={4}>
+            <Col key={i} style={{ gridColumn: i === 0 ? "1/3" : "0" }}>
               <TitleStyled>{el.title}</TitleStyled>
-              <Item>{el.counter}</Item>
+              <Item>
+                <BodyStyled>{el.body}</BodyStyled>
+              </Item>
             </Col>
           );
         })}
@@ -21,30 +23,32 @@ function ContainerCounter(props) {
   );
 }
 
-ContainerCounter.propTypes = {
+ContainerItems.propTypes = {
   data: PropTypes.array.isRequired,
 };
 
-export default ContainerCounter;
+export default ContainerItems;
 
 const Wrapper = styled.div`
   margin: 1.5em 0;
 `;
 
 const Row = styled.div`
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: 100px;
+  @media (max-width: 767px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
 `;
 
 const Col = styled.div`
-  flex: 1 0 18%;
   margin: 5px;
   font-family: Open Sans;
   font-style: normal;
-  font-weight: bold;
-  font-size: 50px;
-  line-height: 68px;
-  text-align: center;
+  font-weight: normal;
+  font-size: 15px;
+  line-height: 20px;
   color: var(--blue-dark);
 `;
 
@@ -56,4 +60,9 @@ const TitleStyled = styled.h1`
   line-height: 27px;
   color: var(--blue-dark);
   text-align: left;
+`;
+
+const BodyStyled = styled.p`
+  padding: 20px 15px;
+  margin: auto;
 `;

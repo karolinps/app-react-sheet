@@ -26,4 +26,5 @@ export default Item;
 
 const ItemStyled = styled.div`
   background: var(--gray-low);
+  height: 65px;
 `;

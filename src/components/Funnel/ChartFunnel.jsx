@@ -38,7 +38,7 @@ ChartFunnel.propTypes = {
 };
 
 const Wrapper = styled.div`
-  width: 46vw;
+  width: 47vw;
   @media (min-width: 768px) {
     top: 3em;
     bottom: 0em;

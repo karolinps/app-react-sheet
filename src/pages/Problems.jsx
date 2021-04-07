@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import { Row, Col } from "antd";
 import Header from "../components/Default/Header";
 import ContainerCounter from "../components/ContainerCounter/ContainerCounter";
 import svgProblems from "../assets/images/problems.svg";
@@ -33,12 +32,12 @@ function Problems() {
         titleBtnNewItem={"Nuevo Problema"}
       />
       <Row className="hidden-xs">
-        <Col xl={16}>
+        <ColLeft>
           <ContainerCounter data={data} />
-        </Col>
-        <Col xl={8} className="col">
+        </ColLeft>
+        <ColRight>
           <InputSearch placeholder={"Seleccione Problema"} />
-        </Col>
+        </ColRight>
       </Row>
     </Wrapper>
   );
@@ -48,13 +47,18 @@ export default Problems;
 
 const Wrapper = styled.div`
   margin: 10px;
-  @media (min-width: 767px) {
-    margin: 20px;
-  }
-  .col {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    margin: 6em 0px;
-  }
+`;
+
+const Row = styled.div`
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+`;
+const ColLeft = styled.div`
+  grid-column: 1 / span 3;
+`;
+const ColRight = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin: 5.5em 0px;
 `;
