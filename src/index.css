@@ -2,6 +2,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&family=Roboto:wght@100;400;500&display=swap");
 body {
   margin: 0;
+  overflow-x: hidden;
 }
 
 :root {
@@ -10,4 +11,60 @@ body {
   --font-opensans: "Open Sans";
   --font-roboto: "Roboto";
   --gray-low: #f3f3f3;
+  --gray-medium: #e5e5e5;
+  --gray: #8a8a8a;
+  --turquoise: #7de5fe;
+  --danger: #d9001a;
+}
+
+.ant-layout {
+  background: #fff !important;
+}
+
+/*---Barra customer--*/
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+}
+
+::-webkit-scrollbar:vertical {
+  width: 10px;
+}
+
+:-webkit-scrollbar-button:increment,
+::-webkit-scrollbar-button {
+  display: none;
+}
+
+::-webkit-scrollbar:horizontal {
+  height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 20px;
+  border: 2px solid #f1f2f3;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+}
+
+/*--Standar --*/
+@media only screen and (min-width: 1262px) {
+  .hidden-xl {
+    display: none !important;
+  }
+}
+@media only screen and (min-width: 768px) and (max-width: 1261px) {
+  .hidden-sm {
+    display: none !important;
+  }
+}
+@media only screen and (max-width: 767px) {
+  .hidden-xs {
+    display: none !important;
+  }
+  .ant-drawer-content-wrapper {
+    width: 100% !important;
+  }
 }

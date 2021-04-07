@@ -1,0 +1,36 @@
+<svg
+        width="140"
+        height="119"
+        viewBox="0 0 140 119"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <circle
+          cx="66.9145"
+          cy="88.9145"
+          r="29.9145"
+          fill="#0060D9"
+          fillOpacity="0.8"
+        />
+        <circle
+          cx="110.085"
+          cy="31.1111"
+          r="29.9145"
+          fill="#0060D9"
+          fill0pacity="0.8"
+        />
+        <circle
+          cx="11.9658"
+          cy="92.1368"
+          r="11.9658"
+          fill="#0060D9"
+          fill0pacity="0.8"
+        />
+        <circle
+          cx="49.06"
+          cy="17.9487"
+          r="17.9487"
+          fill="#0060D9"
+          fill0pacity="0.8"
+        />
+      </svg>
