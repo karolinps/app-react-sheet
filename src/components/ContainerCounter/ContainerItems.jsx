@@ -47,7 +47,7 @@ const Col = styled.div`
   font-family: Open Sans;
   font-style: normal;
   font-weight: normal;
-  font-size: 15px;
+  font-size: var(--body));
   line-height: 20px;
   color: var(--blue-dark);
 `;
@@ -56,10 +56,15 @@ const TitleStyled = styled.h1`
   font-family: var(--font-opensans);
   font-style: normal;
   font-weight: bold;
-  font-size: 20px;
-  line-height: 27px;
+  font-size: var(--subtitle);
   color: var(--blue-dark);
   text-align: left;
+  @media (max-width: 1099px) {
+    font-size: 1em;
+  }
+  @media screen and (min-width: 747px) and (max-width: 1195px) {
+    height: 40%;
+  }
 `;
 
 const BodyStyled = styled.p`

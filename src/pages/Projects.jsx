@@ -43,7 +43,7 @@ function Projects() {
   ];
 
   return (
-    <Wrapper>
+    <>
       <Header
         title="Proyectos"
         icon={svgProjects}
@@ -53,7 +53,7 @@ function Projects() {
       />
       <ContainerItems data={data} />
       <ContainerItems data={dataTwo} />
-      <Row className="hidden-xs">
+      <Row>
         <Col className="col-one">
           <TitleStyled>Hoja de vida</TitleStyled>
           <Card></Card>
@@ -67,30 +67,16 @@ function Projects() {
           <Card></Card>
         </Col>
       </Row>
-    </Wrapper>
+    </>
   );
 }
 
 export default Projects;
 
-const Wrapper = styled.div`
-  margin: 10px;
-  @media (min-width: 767px) {
-    margin: 20px;
-  }
-`;
-
 const Row = styled.div`
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   grid-column-gap: 10px;
-  @media (min-width: 767px) {
-    position: absolute;
-    right: 1.5em;
-    left: 1.5em;
-    bottom: 2em;
-    top: 25em;
-  }
   .col-one {
     grid-column-start: 1;
     grid-column-end: 3;
@@ -108,7 +94,6 @@ const TitleStyled = styled.h1`
   font-family: var(--font-opensans);
   font-style: normal;
   font-weight: bold;
-  font-size: 20px;
-  line-height: 27px;
+  font-size: var(--subtitle);
   color: var(--blue-dark);
 `;

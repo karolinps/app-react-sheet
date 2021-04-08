@@ -48,7 +48,7 @@ const Wrapper = styled.div`
     font-family: Roboto;
     font-style: normal;
     font-weight: normal;
-    font-size: 20px;
+    font-size: 1.3em;
     line-height: 23px;
     letter-spacing: 0.05em;
     color: #8a8a8a;

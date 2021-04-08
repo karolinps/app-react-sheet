@@ -168,7 +168,7 @@ const TitleStyled = styled.h1`
   font-family: var(--font-opensans);
   font-style: normal;
   font-weight: bold;
-  font-size: 30px;
+  font-size: var(--title);
   line-height: 41px;
   display: flex;
   align-items: center;

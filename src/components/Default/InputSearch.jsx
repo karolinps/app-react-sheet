@@ -32,7 +32,7 @@ const Wrapper = styled.div`
   }
   input,
   .ant-input-group {
-    height: 50px;
+    height: 40px;
     border: none;
     background: var(--gray-low);
     outline: none;
@@ -42,7 +42,6 @@ const Wrapper = styled.div`
     font-family: var(--font-roboto);
     font-style: normal;
     font-weight: normal;
-    font-size: 20px;
     line-height: 23px;
     letter-spacing: 0.05em;
   }

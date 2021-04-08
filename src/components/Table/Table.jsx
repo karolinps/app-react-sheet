@@ -45,28 +45,33 @@ const Wrapper = styled.div`
   :hover {
     overflow-y: auto;
   }
-  @media (min-width: 768px) {
-    top: 3em;
-    bottom: 0em;
-    overflow: hidden;
-    left: 0em;
-    right: 0em;
-    position: absolute;
+  overflow: hidden;
+  height: 80vh;
+  @media (max-width: 647px) {
+    width: 80vw;
+    overflow: auto;
   }
 `;
 const TableStyled = styled.table`
   width: 47.5vw;
   border-collapse: separate;
-  border-spacing: 1em;
-  margin-top: -1em;
+  border-spacing: 0.5em 1em;
   height: 100%;
+  margin: -15px 0px;
+  @media (min-width: 1223px) {
+    border-spacing: 1em;
+  }
+  @media (max-width: 991px) {
+    margin: 0 auto;
+    width: 100%;
+  }
   th {
     background: var(--gray-medium);
     height: 70px;
     font-family: var(--font-opensans);
     font-style: normal;
     font-weight: bold;
-    font-size: 20px;
+    font-size: var(--subtitle);
     line-height: 27px;
     text-align: center;
     color: var(--blue-dark);
@@ -78,7 +83,7 @@ const TableStyled = styled.table`
     font-family: var(--font-opensans);
     font-style: normal;
     font-weight: normal;
-    font-size: 15px;
+    font-size: var(--body);
     line-height: 20px;
     text-align: center;
     color: var(--blue-dark);
@@ -89,7 +94,11 @@ const TitleStyled = styled.h2`
   font-family: var(--font-opensans);
   font-style: normal;
   font-weight: bold;
-  font-size: 20px;
+  font-size: 1.3em;
   line-height: 27px;
   color: var(--blue-dark);
+  margin-left: 0.8em;
+  @media (max-width: 991px) {
+    margin-top: 1em;
+  }
 `;

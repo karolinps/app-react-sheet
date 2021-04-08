@@ -89,7 +89,7 @@ Header.propTypes = {
 export default Header;
 
 const Wrapper = styled.div`
-  @media (min-width: 767px) {
+  @media (min-width: 576px) {
     display: flex;
     justify-content: space-between;
   }
@@ -98,12 +98,13 @@ const TitleStyled = styled.h1`
   font-family: var(--font-opensans);
   font-style: normal;
   font-weight: bold;
-  font-size: 30px;
+  font-size: var(--title);
   letter-spacing: 0.05em;
   color: var(--blue-dark);
   margin-bottom: 0px;
   position: relative;
   left: 0.5em;
+  top: 0.25em;
 `;
 const CardStyled = styled.div`
   width: 50px;
@@ -122,8 +123,5 @@ const Img = styled.img`
   margin: auto;
 `;
 const LeftRightCol = styled.div`
-  @media (min-width: 767px) {
-    display: flex;
-    justify-content: space-between;
-  }
+  display: flex;
 `;

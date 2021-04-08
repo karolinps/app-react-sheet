@@ -3,7 +3,6 @@ import styled from "styled-components";
 import Header from "../components/Default/Header";
 import ContainerCounter from "../components/ContainerCounter/ContainerCounter";
 import svgProblems from "../assets/images/problems.svg";
-import InputSearch from "../components/Default/InputSearch";
 
 function Problems() {
   const data = [
@@ -22,7 +21,7 @@ function Problems() {
   ];
 
   return (
-    <Wrapper>
+    <>
       <Header
         title="Problemas"
         icon={svgProblems}
@@ -31,23 +30,19 @@ function Problems() {
         btnNewItem
         titleBtnNewItem={"Nuevo Problema"}
       />
-      <Row className="hidden-xs">
+      <Row>
         <ColLeft>
           <ContainerCounter data={data} />
         </ColLeft>
-        <ColRight>
+        {/* <ColRight>
           <InputSearch placeholder={"Seleccione Problema"} />
-        </ColRight>
+        </ColRight> */}
       </Row>
-    </Wrapper>
+    </>
   );
 }
 
 export default Problems;
-
-const Wrapper = styled.div`
-  margin: 10px;
-`;
 
 const Row = styled.div`
   display: grid;
@@ -56,9 +51,9 @@ const Row = styled.div`
 const ColLeft = styled.div`
   grid-column: 1 / span 3;
 `;
-const ColRight = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  margin: 5.5em 0px;
-`;
+// const ColRight = styled.div`
+//   display: flex;
+//   justify-content: flex-end;
+//   align-items: center;
+//   margin: 5.5em 0px;
+// `;

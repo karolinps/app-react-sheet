@@ -100,7 +100,7 @@ function Portfolio() {
     },
   ];
   return (
-    <Wrapper>
+    <>
       <Header
         title="Portafolio"
         icon={svgPortfolio}
@@ -110,37 +110,36 @@ function Portfolio() {
         titleBtnNewItem={"Nueva Oportunidad"}
       />
       <ContainerCounter data={data} />
-      <Row className="hidden-xs">
-        <Col>
+      <Row>
+        <Col className="col-one">
           <ChartPortfolio />
         </Col>
-        <Col>
+        <Col className="col-two">
           <TableComponent titleHeader={titleHeader} dataTable={dataTable} />
         </Col>
       </Row>
-    </Wrapper>
+    </>
   );
 }
 
 export default Portfolio;
 
-const Wrapper = styled.div`
-  margin: 10px;
-  @media (min-width: 767px) {
-    margin: 20px;
-  }
-`;
 const Row = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  @media (min-width: 767px) {
-    position: absolute;
-    right: 1.5em;
-    left: 1.5em;
-    bottom: 2em;
-    top: 15em;
+  grid-column-gap: 5px;
+  @media (max-width: 991px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  @media (min-width: 992px) {
+    .col-one {
+      grid-column-start: 1;
+      grid-column-end: 2;
+    }
+    .col-two {
+      grid-column-start: 2;
+      grid-column-end: 5;
+    }
   }
 `;
-const Col = styled.div`
-  position: relative;
-`;
+const Col = styled.div``;

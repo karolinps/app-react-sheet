@@ -15,6 +15,11 @@ body {
   --gray: #8a8a8a;
   --turquoise: #7de5fe;
   --danger: #d9001a;
+  --title: 1.875em;
+  --subtitle: 1.25em;
+  --body: 0.938em;
+  --body-big: 2.5em;
+  --title-big: 3.125em;
 }
 
 .ant-layout {
