@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Header from "../components/Default/Header";
 import ContainerCounter from "../components/ContainerCounter/ContainerCounter";
 import TableComponent from "../components/Table/Table";
+import GridTable from "../components/Table/GridTable";
 import svgSeasons from "../assets/images/seasons.svg";
 
 function Seasons() {
@@ -111,7 +112,9 @@ function Seasons() {
       />
       <ContainerCounter data={data} />
       <Row>
-        <Col></Col>
+        <Col>
+          <GridTable />
+        </Col>
         <Col>
           <TableComponent titleHeader={titleHeader} dataTable={dataTable} />
         </Col>
@@ -128,16 +131,6 @@ const Row = styled.div`
   grid-column-gap: 5px;
   @media (max-width: 991px) {
     grid-template-columns: repeat(1, 1fr);
-  }
-  @media (min-width: 992px) {
-    .col-one {
-      grid-column-start: 1;
-      grid-column-end: 2;
-    }
-    .col-two {
-      grid-column-start: 2;
-      grid-column-end: 5;
-    }
   }
 `;
 const Col = styled.div``;

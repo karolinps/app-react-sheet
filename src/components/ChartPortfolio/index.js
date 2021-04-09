@@ -207,8 +207,10 @@ const Index = () => {
 
   return (
     <>
-      <TitleStyled>Portafolio de innovación</TitleStyled>
-
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <TitleStyled>Portafolio de innovación</TitleStyled>
+        <Filters getFilter={filterByType} />
+      </div>
       <Wrapper>
         <DivContainer>
           <ContainerChart>
@@ -228,7 +230,6 @@ const Index = () => {
               />
             </div>
           </ContainerChart>
-          <Filters getFilter={filterByType} />
         </DivContainer>
       </Wrapper>
     </>

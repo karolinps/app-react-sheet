@@ -4,7 +4,8 @@ import { Chart } from "chart.js";
 import "chartjs-plugin-datalabels";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-const labelDanger = ["ALTA", "MEDIA", "BAJA"]; // los labels para riesgo (para dinamico solo modificar array)
+
+const labelDanger = ["Alto", "Medio", "Bajo"]; // los labels para riesgo (para dinamico solo modificar array)
 
 const ChartJS = ({ data, labelYears, selectedYears }) => {
   const chartRef = useRef(null);
@@ -74,7 +75,7 @@ const ChartJS = ({ data, labelYears, selectedYears }) => {
     // opciones de configuración que permite tener el estilo actual
     tooltips: {
       titleFontFamily: "Roboto",
-      titleFontSize: 18,
+      titleFontSize: 15,
       cornerRadius: 0,
       displayColors: false,
       callbacks: {
@@ -219,7 +220,7 @@ const ChartJS = ({ data, labelYears, selectedYears }) => {
               transform: "rotate(180deg)",
             }}
           >
-            RIESGO
+            Riesgo
           </Title>
         </div>
         <div
@@ -239,6 +240,9 @@ const ChartJS = ({ data, labelYears, selectedYears }) => {
               style={{
                 writingMode: "vertical-rl",
                 transform: "rotate(180deg)",
+                fontSize: "var(--body)",
+                fontFamily: "var(--font-opensans)",
+                color: "var(--gray-dark)",
               }}
             >
               {label}
@@ -273,7 +277,7 @@ const ChartJS = ({ data, labelYears, selectedYears }) => {
             fontSize: 16,
           }}
         >
-          <Title>PLAZO</Title>
+          <Title>Plazo</Title>
         </div>
         <div
           style={{
@@ -321,7 +325,7 @@ const Title = styled.h1`
   font-family: var(--font-opensans);
   font-style: normal;
   font-weight: bold;
-  font-size: 20px;
+  font-size: var(--subtitle);
   line-height: 27px;
   text-align: center;
   color: var(--blue-dark);
