@@ -10,6 +10,7 @@ import Img from "../../assets/images/img-login.svg";
 import { login } from "../../redux/auth/authDucks";
 
 function Login(props) {
+  const { history } = props;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -20,9 +21,9 @@ function Login(props) {
 
   useEffect(() => {
     if (activo) {
-      props.history.push("/dashboard");
+      history.push("/dashboard");
     }
-  }, [activo, loading]);
+  }, [activo, loading, history]);
 
   const handleLogin = async (e, canal) => {
     e.preventDefault();
