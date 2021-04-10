@@ -62,8 +62,20 @@ function Funnel() {
   let dataNewL4 = [];
   let dataNewL5 = [];
 
+  let totalMUSDL0 = "";
+  let totalMUSDL1 = "";
+  let totalMUSDL2 = "";
+  let totalMUSDL3 = "";
+  let totalMUSDL4 = "";
+  let totalMUSDL5 = "";
+
   statusL0.map((el) => {
     if (el.iniciativas) {
+      totalMUSDL0 = el.iniciativas.reduce(
+        (accu, currentValue) => accu + parseInt(currentValue.base),
+        0
+      );
+
       return el.iniciativas.map((el) => {
         if (el) {
           return dataNewL0.push({ ...el });
@@ -73,6 +85,10 @@ function Funnel() {
   });
   statusL1.map((el) => {
     if (el.iniciativas) {
+      totalMUSDL1 = el.iniciativas.reduce(
+        (accu, currentValue) => accu + parseInt(currentValue.base),
+        0
+      );
       return el.iniciativas.map((el) => {
         if (el) {
           return dataNewL1.push({ ...el });
@@ -82,6 +98,11 @@ function Funnel() {
   });
   statusL2.map((el) => {
     if (el.iniciativas) {
+      totalMUSDL2 = el.iniciativas.reduce(
+        (accu, currentValue) => accu + parseInt(currentValue.base),
+        0
+      );
+
       return el.iniciativas.map((el) => {
         if (el) {
           return dataNewL2.push({ ...el });
@@ -91,6 +112,10 @@ function Funnel() {
   });
   statusL3.map((el) => {
     if (el.iniciativas) {
+      totalMUSDL3 = el.iniciativas.reduce(
+        (accu, currentValue) => accu + parseInt(currentValue.base),
+        0
+      );
       return el.iniciativas.map((el) => {
         if (el) {
           return dataNewL3.push({ ...el });
@@ -100,6 +125,10 @@ function Funnel() {
   });
   statusL4.map((el) => {
     if (el.iniciativas) {
+      totalMUSDL4 = el.iniciativas.reduce(
+        (accu, currentValue) => accu + parseInt(currentValue.base),
+        0
+      );
       return el.iniciativas.map((el) => {
         if (el) {
           return dataNewL4.push({ ...el });
@@ -109,6 +138,10 @@ function Funnel() {
   });
   statusL5.map((el) => {
     if (el.iniciativas) {
+      totalMUSDL5 = el.iniciativas.reduce(
+        (accu, currentValue) => accu + parseInt(currentValue.base),
+        0
+      );
       return el.iniciativas.map((el) => {
         if (el) {
           return dataNewL5.push({ ...el });
@@ -121,7 +154,7 @@ function Funnel() {
       percentage: "100",
       counter: statusL0.length,
       label: "Idea",
-      musd: "",
+      musd: totalMUSDL0,
       data: statusL0,
       allInitiatives: dataNewL0,
     },
@@ -129,7 +162,7 @@ function Funnel() {
       percentage: "90",
       counter: statusL1.length,
       label: "Validacion",
-      musd: "",
+      musd: totalMUSDL1,
       data: statusL1,
       allInitiatives: dataNewL1,
     },
@@ -137,7 +170,7 @@ function Funnel() {
       percentage: "75",
       counter: statusL2.length,
       label: "Planeación",
-      musd: "",
+      musd: totalMUSDL2,
       data: statusL2,
       allInitiatives: dataNewL2,
     },
@@ -145,7 +178,7 @@ function Funnel() {
       percentage: "60",
       counter: statusL3.length,
       label: "Implementación",
-      musd: "",
+      musd: totalMUSDL3,
       data: statusL3,
       allInitiatives: dataNewL3,
     },
@@ -153,7 +186,7 @@ function Funnel() {
       percentage: "45",
       counter: statusL4.length,
       label: "Monitoreo",
-      musd: "",
+      musd: totalMUSDL4,
       data: statusL4,
       allInitiatives: dataNewL4,
     },
@@ -161,7 +194,7 @@ function Funnel() {
       percentage: "35",
       counter: statusL5.length,
       label: "Captura",
-      musd: "",
+      musd: totalMUSDL5,
       data: statusL5,
       allInitiatives: dataNewL5,
     },

@@ -20,7 +20,7 @@ export default function ChartFunnel(props) {
                 <Row>
                   <Left>
                     <h1>{el.counter}</h1>
-                    <span>120 MUSD</span>
+                    <span>{el.musd} MSUD</span>
                   </Left>
 
                   <Right>

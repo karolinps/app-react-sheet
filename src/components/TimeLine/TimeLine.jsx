@@ -107,6 +107,7 @@ const Wrapper = styled.div`
   }
   .ant-timeline-item-tail {
     border: 3px solid var(--blue);
+    background: var(--blue);
   }
   .ant-timeline-item-head-blue {
     width: 17px;

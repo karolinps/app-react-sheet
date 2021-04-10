@@ -2,13 +2,17 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import DrawerComponent from "../Drawer/Drawer";
 import PropTypes from "prop-types";
+import ShowInitiatives from "../Initiative/Initiative";
+import { withRouter } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { getByIniatitive } from "../../redux/initiative/initiativeDucks";
 
 function TableComponent(props) {
   const { titleHeader, dataTable } = props;
-
   const [visible, setVisible] = useState(false);
   const [hover, setHover] = useState("");
   const [dataShow, setDataShow] = useState({});
+  const dispatch = useDispatch();
 
   const showDrawer = (el) => {
     setDataShow(el);
@@ -24,16 +28,22 @@ function TableComponent(props) {
       setHover();
     }
   };
+  const viewDetail = () => {
+    props.history.push(`/detail-initiative/${dataShow.id}`);
+    dispatch(getByIniatitive(dataShow));
+  };
   const drawer = (
     <DrawerComponent
-      title="Basic Drawer"
+      title={dataShow.titulo}
       placement="right"
       closable={false}
       onClose={onClose}
       visible={visible}
       width={400}
+      titleButton={"Ir a la iniciativa"}
+      handleAction={viewDetail}
     >
-      <p>{dataShow.estado_simplificado}</p>
+      <ShowInitiatives dataShow={dataShow}></ShowInitiatives>
     </DrawerComponent>
   );
   return (
@@ -75,7 +85,7 @@ function TableComponent(props) {
                       color: hover === i ? "#fff" : "",
                     }}
                   >
-                    {el.title}
+                    {el.titulo}
                   </td>
                   <td
                     style={{
@@ -106,8 +116,9 @@ function TableComponent(props) {
 TableComponent.propTypes = {
   titleHeader: PropTypes.array,
   dataTable: PropTypes.array,
+  history: PropTypes.object,
 };
-export default TableComponent;
+export default withRouter(TableComponent);
 
 const Wrapper = styled.div`
   :hover {
@@ -162,7 +173,7 @@ const TitleStyled = styled.h2`
   font-family: var(--font-opensans);
   font-style: normal;
   font-weight: bold;
-  font-size: 1.3em;
+  font-size: var(--subtitle);
   line-height: 27px;
   color: var(--blue-dark);
   margin-left: 0.8em;

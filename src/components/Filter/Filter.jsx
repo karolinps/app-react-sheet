@@ -180,8 +180,8 @@ const FooterButton = styled.div`
   display: flex;
   justify-content: space-between;
   position: absolute;
-  right: 22px;
-  left: 22px;
+  right: 18px;
+  left: 18px;
   margin: auto;
-  bottom: 22px;
+  bottom: 18px;
 `;

@@ -24,6 +24,7 @@ body {
   --body-big: 2.5em;
   --title-big: 3.125em;
   --hight-container: 80vh;
+  --green: #2ad70d;
 }
 
 .ant-layout {
@@ -89,4 +90,10 @@ body {
 }
 .ant-switch-small {
   height: 14px !important;
+}
+.ant-drawer-body {
+  padding: 20px !important;
+}
+.ant-drawer-header {
+  padding: 5px 20px !important;
 }

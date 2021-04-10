@@ -5,7 +5,7 @@ import Seasons from "./pages/Seasons";
 import Customers from "./pages/Customers";
 import Problems from "./pages/Problems";
 import Projects from "./pages/Projects";
-
+import Detail from "./components/Initiative/Detail";
 const routes = [
   {
     key: "dashboard",
@@ -47,6 +47,12 @@ const routes = [
     key: "projects",
     path: "/projects",
     component: Projects,
+    exact: true,
+  },
+  {
+    key: "detail-initiative",
+    path: "/detail-initiative/:id",
+    component: Detail,
     exact: true,
   },
 ];
