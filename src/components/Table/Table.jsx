@@ -1,12 +1,44 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import DrawerComponent from "../Drawer/Drawer";
 import PropTypes from "prop-types";
 
 function TableComponent(props) {
   const { titleHeader, dataTable } = props;
 
+  const [visible, setVisible] = useState(false);
+  const [hover, setHover] = useState("");
+  const [dataShow, setDataShow] = useState({});
+
+  const showDrawer = (el) => {
+    setDataShow(el);
+    setVisible(true);
+  };
+  const onClose = () => {
+    setVisible(false);
+  };
+  const handleHover = (i, action) => {
+    if (action === 1) {
+      setHover(i);
+    } else {
+      setHover();
+    }
+  };
+  const drawer = (
+    <DrawerComponent
+      title="Basic Drawer"
+      placement="right"
+      closable={false}
+      onClose={onClose}
+      visible={visible}
+      width={400}
+    >
+      <p>{dataShow.estado_simplificado}</p>
+    </DrawerComponent>
+  );
   return (
     <>
+      {drawer}
       <TitleStyled>Listado de iniciativas</TitleStyled>
       <Wrapper>
         <TableStyled>
@@ -20,11 +52,47 @@ function TableComponent(props) {
           <tbody>
             {dataTable.map((el, i) => {
               return (
-                <tr key={i}>
-                  <td>{el.number}</td>
-                  <td>{el.title}</td>
-                  <td>{el.status}</td>
-                  <td>{el.pending}</td>
+                <tr
+                  key={i}
+                  onClick={() => showDrawer(el)}
+                  onMouseEnter={() => handleHover(i, 1)}
+                  onMouseLeave={() => handleHover(i, 2)}
+                  style={{
+                    cursor: "pointer",
+                  }}
+                >
+                  <td
+                    style={{
+                      backgroundColor: hover === i ? "var(--blue-medium)" : "",
+                      color: hover === i ? "#fff" : "",
+                    }}
+                  >
+                    00{i + 1}
+                  </td>
+                  <td
+                    style={{
+                      backgroundColor: hover === i ? "var(--blue-medium)" : "",
+                      color: hover === i ? "#fff" : "",
+                    }}
+                  >
+                    {el.title}
+                  </td>
+                  <td
+                    style={{
+                      backgroundColor: hover === i ? "var(--blue-medium)" : "",
+                      color: hover === i ? "#fff" : "",
+                    }}
+                  >
+                    {el.estado_simplificado}
+                  </td>
+                  <td
+                    style={{
+                      backgroundColor: hover === i ? "var(--blue-medium)" : "",
+                      color: hover === i ? "#fff" : "",
+                    }}
+                  >
+                    {el.pending}
+                  </td>
                 </tr>
               );
             })}
@@ -56,7 +124,7 @@ const TableStyled = styled.table`
   width: 47.5vw;
   border-collapse: separate;
   border-spacing: 0.5em 1em;
-  height: 100%;
+  // height: 100%;
   margin: -15px 0px;
   @media (min-width: 1223px) {
     border-spacing: 1em;

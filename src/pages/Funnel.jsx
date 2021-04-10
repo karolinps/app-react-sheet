@@ -1,11 +1,16 @@
 import React from "react";
 import styled from "styled-components";
+import { useSelector } from "react-redux";
 import Header from "../components/Default/Header";
 import ContainerCounter from "../components/ContainerCounter/ContainerCounter";
 import TableComponent from "../components/Table/Table";
 import svgFunnel from "../assets/images/funnel.svg";
 import ChartFunnel from "../components/Funnel/ChartFunnel";
+
 function Funnel() {
+  const allDataProjects = useSelector((store) => store.project.data);
+  const dataByProject = useSelector((store) => store.project.dataByProject);
+
   const data = [
     {
       title: "Plan",
@@ -42,98 +47,123 @@ function Funnel() {
       title: "Pendientes",
     },
   ];
-  const dataTable = [
+
+  let statusL0 = allDataProjects.filter((el) => el.estado === "L0");
+  let statusL1 = allDataProjects.filter((el) => el.estado === "L1");
+  let statusL2 = allDataProjects.filter((el) => el.estado === "L2");
+  let statusL3 = allDataProjects.filter((el) => el.estado === "L3");
+  let statusL4 = allDataProjects.filter((el) => el.estado === "L4");
+  let statusL5 = allDataProjects.filter((el) => el.estado === "L5");
+
+  let dataNewL0 = [];
+  let dataNewL1 = [];
+  let dataNewL2 = [];
+  let dataNewL3 = [];
+  let dataNewL4 = [];
+  let dataNewL5 = [];
+
+  statusL0.map((el) => {
+    if (el.iniciativas) {
+      return el.iniciativas.map((el) => {
+        if (el) {
+          return dataNewL0.push({ ...el });
+        }
+      });
+    }
+  });
+  statusL1.map((el) => {
+    if (el.iniciativas) {
+      return el.iniciativas.map((el) => {
+        if (el) {
+          return dataNewL1.push({ ...el });
+        }
+      });
+    }
+  });
+  statusL2.map((el) => {
+    if (el.iniciativas) {
+      return el.iniciativas.map((el) => {
+        if (el) {
+          return dataNewL2.push({ ...el });
+        }
+      });
+    }
+  });
+  statusL3.map((el) => {
+    if (el.iniciativas) {
+      return el.iniciativas.map((el) => {
+        if (el) {
+          return dataNewL3.push({ ...el });
+        }
+      });
+    }
+  });
+  statusL4.map((el) => {
+    if (el.iniciativas) {
+      return el.iniciativas.map((el) => {
+        if (el) {
+          return dataNewL4.push({ ...el });
+        }
+      });
+    }
+  });
+  statusL5.map((el) => {
+    if (el.iniciativas) {
+      return el.iniciativas.map((el) => {
+        if (el) {
+          return dataNewL5.push({ ...el });
+        }
+      });
+    }
+  });
+  const dataFunnel = [
     {
-      number: "001",
-      title: "Poryecto CDI",
-      status: "Proyecto CDI",
-      pending: "Proyecto CDI",
-    },
-    {
-      number: "001",
-      title: "Poryecto CDI",
-      status: "Proyecto CDI",
-      pending: "Proyecto CDI",
-    },
-    {
-      number: "001",
-      title: "Poryecto CDI",
-      status: "Proyecto CDI",
-      pending: "Proyecto CDI",
-    },
-    {
-      number: "001",
-      title: "Poryecto CDI",
-      status: "Proyecto CDI",
-      pending: "Proyecto CDI",
-    },
-    {
-      number: "001",
-      title: "Poryecto CDI",
-      status: "Proyecto CDI",
-      pending: "Proyecto CDI",
-    },
-    {
-      number: "001",
-      title: "Poryecto CDI",
-      status: "Proyecto CDI",
-      pending: "Proyecto CDI",
-    },
-    {
-      number: "001",
-      title: "Poryecto CDI",
-      status: "Proyecto CDI",
-      pending: "Proyecto CDI",
-    },
-    {
-      number: "001",
-      title: "Poryecto CDI",
-      status: "Proyecto CDI",
-      pending: "Proyecto CDI",
-    },
-    {
-      number: "001",
-      title: "Poryecto CDI",
-      status: "Proyecto CDI",
-      pending: "Proyecto CDI",
-    },
-  ];
-  const dataEmbudo = [
-    {
-      number: "45",
-      counter: "120",
-      description: "Idea",
       percentage: "100",
+      counter: statusL0.length,
+      label: "Idea",
+      musd: "",
+      data: statusL0,
+      allInitiatives: dataNewL0,
     },
     {
-      number: "12",
-      counter: "100",
-      description: "Validación",
       percentage: "90",
+      counter: statusL1.length,
+      label: "Validacion",
+      musd: "",
+      data: statusL1,
+      allInitiatives: dataNewL1,
     },
     {
-      number: "8",
-      counter: "80",
-      description: "Planeación",
       percentage: "75",
+      counter: statusL2.length,
+      label: "Planeación",
+      musd: "",
+      data: statusL2,
+      allInitiatives: dataNewL2,
     },
     {
-      number: "12",
-      counter: "20",
-      description: "Implementación",
       percentage: "60",
+      counter: statusL3.length,
+      label: "Implementación",
+      musd: "",
+      data: statusL3,
+      allInitiatives: dataNewL3,
     },
     {
-      number: "5",
-      counter: "10",
-      description: "Monitoreo",
       percentage: "45",
+      counter: statusL4.length,
+      label: "Monitoreo",
+      musd: "",
+      data: statusL4,
+      allInitiatives: dataNewL4,
     },
     {
-      number: "4",
-      counter: "120",
-      description: "Captura",
       percentage: "35",
+      counter: statusL5.length,
+      label: "Captura",
+      musd: "",
+      data: statusL5,
+      allInitiatives: dataNewL5,
     },
   ];
   return (
@@ -149,10 +179,13 @@ function Funnel() {
       <ContainerCounter data={data} />
       <Row>
         <Col>
-          <ChartFunnel data={dataEmbudo} />
+          <ChartFunnel data={dataFunnel} />
         </Col>
         <Col>
-          <TableComponent titleHeader={titleHeader} dataTable={dataTable} />
+          <TableComponent
+            titleHeader={titleHeader}
+            dataTable={dataByProject ? dataByProject.allInitiatives : []}
+          />
         </Col>
       </Row>
     </>

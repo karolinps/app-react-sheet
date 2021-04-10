@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
-import { useHistory } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
 import Button from "./Button";
 import Filter from "../Filter/Filter";
 import InputSearch from "../Default/InputSearch";
 
-import { firebase } from "../../firebase/firebase";
+import { logout } from "../../redux/auth/authDucks";
 
 function Header(props) {
   const {
@@ -20,8 +21,8 @@ function Header(props) {
     placeholder,
     titleBtnNewItem,
   } = props;
-  const history = useHistory();
   const [visible, setVisible] = useState(false);
+  const dispatch = useDispatch();
 
   const showDrawer = () => {
     setVisible(true);
@@ -30,9 +31,9 @@ function Header(props) {
     setVisible(false);
   };
 
-  const logout = async () => {
-    await firebase.auth().signOut();
-    history.push("/login");
+  const logoutSession = () => {
+    dispatch(logout());
+    props.history.push("/login");
   };
 
   const drawerFilter = <Filter visible={visible} onClose={onClose} />;
@@ -46,7 +47,7 @@ function Header(props) {
   ) : null;
 
   const isBtnLogout = btnLogout ? (
-    <Button title="Salir" background="var(--danger)" onClick={logout} />
+    <Button title="Salir" background="var(--danger)" onClick={logoutSession} />
   ) : null;
 
   const isInputSearch = inputSearch ? (
@@ -77,6 +78,7 @@ function Header(props) {
 }
 
 Header.propTypes = {
+  history: PropTypes.object,
   title: PropTypes.string,
   placeholder: PropTypes.string,
   titleBtnNewItem: PropTypes.string,
@@ -86,7 +88,7 @@ Header.propTypes = {
   btnFilter: PropTypes.any,
   inputSearch: PropTypes.any,
 };
-export default Header;
+export default withRouter(Header);
 
 const Wrapper = styled.div`
   @media (min-width: 576px) {

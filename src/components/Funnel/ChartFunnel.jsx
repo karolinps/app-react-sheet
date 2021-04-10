@@ -1,10 +1,13 @@
 import React from "react";
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import Item from "../Default/Item";
+import { showAllInitiatives } from "../../redux/project/projectDucks";
 
 export default function ChartFunnel(props) {
   const { data } = props;
+  const dispatch = useDispatch();
 
   return (
     <>
@@ -12,17 +15,17 @@ export default function ChartFunnel(props) {
       <Wrapper>
         {data.map((el, i) => {
           return (
-            <Container key={i}>
+            <Container key={i} onClick={() => dispatch(showAllInitiatives(el))}>
               <Item width={el.percentage} backgroundColor={"#E5E5E5"}>
                 <Row>
                   <Left>
-                    <h1>{el.number}</h1>
-                    <span>{el.counter} MUSD</span>
+                    <h1>{el.counter}</h1>
+                    <span>120 MUSD</span>
                   </Left>
 
                   <Right>
-                    <p className="counter">L {i + 1}</p>
-                    <p>{el.description}</p>
+                    <p className="counter">L {i}</p>
+                    <p>{el.label}</p>
                   </Right>
                 </Row>
               </Item>
@@ -64,6 +67,7 @@ const Container = styled.div`
   margin-bottom: 2em;
   display: flex;
   justify-content: flex-end;
+  cursor: pointer;
   h1 {
     font-family: var(--font-opensans);
     font-style: normal;
