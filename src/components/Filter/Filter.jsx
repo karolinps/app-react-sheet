@@ -1,10 +1,18 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { Drawer } from "antd";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import Select from "../Default/Select";
 import DatePicker from "../Default/DatePicker";
 import Button from "../Default/Button";
+import { useDispatch } from "react-redux";
+import {
+  filterByCountry,
+  getAllData,
+  filterByArea,
+} from "../../redux/initiative/initiativeDucks";
+import axios from "axios";
+import config from "../../config";
 
 const size = [
   {
@@ -59,15 +67,15 @@ const profile = [
 const country = [
   {
     label: "Chile",
-    value: "chile",
+    value: "Chile",
   },
   {
     label: "Colombia",
-    value: "colombia",
+    value: "Colombia",
   },
   {
     label: "Ecuador",
-    value: "ecuador",
+    value: "Ecuador",
   },
 ];
 const area = [
@@ -82,6 +90,10 @@ const area = [
   {
     label: "Rampa",
     value: "Rampa",
+  },
+  {
+    label: "Sistemas",
+    value: "Sistemas",
   },
 ];
 const type = [
@@ -103,6 +115,9 @@ function Filter(props) {
   const selectTypeRef = useRef();
   const selectCountryRef = useRef();
   const selectAreaRef = useRef();
+  const [selectedCountry, setSelectedCountry] = useState("");
+  const [selectedArea, setSelectedArea] = useState("");
+  const dispacth = useDispatch();
 
   const clearFilter = () => {
     selectSizeRef.current.select.clearValue();
@@ -111,6 +126,38 @@ function Filter(props) {
     selectTypeRef.current.select.clearValue();
     selectCountryRef.current.select.clearValue();
     selectAreaRef.current.select.clearValue();
+  };
+
+  const handleChange = (e) => {
+    if (e !== null) {
+      setSelectedCountry(e.value);
+    }
+  };
+
+  const handleChangeArea = (e) => {
+    if (e !== null) {
+      setSelectedArea(e.value);
+    }
+  };
+  const getValue = (option) => {
+    return option.value;
+  };
+  const getLabel = (option) => {
+    return option.label;
+  };
+  const filter = async () => {
+    dispacth(filterByCountry(selectedCountry));
+    dispacth(filterByArea(selectedArea));
+    try {
+      const resp = await axios.get(
+        `${config.api}/iniciativas?pais=${selectedCountry}&area=${selectedArea}`
+      );
+
+      dispacth(getAllData(resp.data));
+      onClose();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const title = <TitleStyled>Filtros</TitleStyled>;
@@ -125,27 +172,48 @@ function Filter(props) {
         visible={visible}
         width={400}
       >
-        <Select options={size} placeholder={"Tamaño"} useRef={selectSizeRef} />
+        <Select
+          options={size}
+          placeholder={"Tamaño"}
+          useRef={selectSizeRef}
+          handleChange={handleChange}
+        />
         <Select
           options={status}
           placeholder={"Estado"}
           useRef={selectStatusRef}
+          handleChange={handleChange}
         />
         <Select
           options={profile}
           placeholder={"Perfil"}
           useRef={selectProfileRef}
+          handleChange={handleChange}
         />
         <Select options={type} placeholder={"Tipo"} useRef={selectTypeRef} />
         <Select
           options={country}
           placeholder={"País"}
           useRef={selectCountryRef}
+          getOptionLabel={getLabel}
+          getOptionValue={getValue}
+          handleChange={handleChange}
         />
-        <Select options={area} placeholder={"Area"} useRef={selectAreaRef} />
+        <Select
+          options={area}
+          placeholder={"Area"}
+          useRef={selectAreaRef}
+          getOptionLabel={getLabel}
+          getOptionValue={getValue}
+          handleChange={handleChangeArea}
+        />
         <DatePicker />
         <FooterButton>
-          <Button title="Aplicar filtros" background="var(--blue-medium)" />
+          <Button
+            title="Aplicar filtros"
+            background="var(--blue-medium)"
+            onClick={filter}
+          />
           <Button
             title="Borrar"
             background="var(--danger)"

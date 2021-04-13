@@ -1,54 +1,101 @@
 import React from "react";
 import { Timeline } from "antd";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
-function TimeLineComponennt() {
-  const data = [
+function TimeLineComponennt(props) {
+  const { data } = props;
+  const dataTimeLine = [
     {
       title: "LO",
-      date: "22/10/2021",
+      date: data.l0_idea,
       description: "Idea capturada",
       children: [
         {
-          date: "22/10/2021",
+          date: data.acta_1,
           description: "Entregable #0 OK",
         },
       ],
     },
     {
       title: "L1",
-      date: "22/10/2021",
+      date: data.l1_Identificacion,
       description: "Idea validada",
       children: [
         {
-          date: "22/10/2021",
+          date: data.proc_criticos_2,
           description: "Entregable #1 OK",
         },
         {
-          date: "22/10/2021",
+          date: data.bc_3,
           description: "Entregable #2 OK",
         },
         {
-          date: "22/10/2021",
-          description: "Entregable #1 OK",
-        },
-        {
-          date: "22/10/2021",
-          description: "Entregable #2 OK",
+          date: data.ppt_bc_4,
+          description: "Entregable #3 OK",
         },
       ],
     },
     {
       title: "L2",
-      date: "22/10/2021",
+      date: data.l2_validacion,
       description: "Idea validada",
       children: [
         {
-          date: "22/10/2021",
+          date: data.gantt_5,
+          description: "Entregable #1 OK",
+        },
+        {
+          date: data.edt_6,
           description: "Entregable #2 OK",
         },
         {
-          date: "22/10/2021",
+          date: data.raci_7,
+          description: "Entregable #3 OK",
+        },
+        {
+          date: data.constitucion_8,
+          description: "Entregable #4 OK",
+        },
+      ],
+    },
+    {
+      title: "L3",
+      date: data.l3_planeacion,
+      description: "Idea planeada",
+      children: [
+        {
+          date: data.control_costos_9,
+          description: "Entregable #1 OK",
+        },
+        {
+          date: data.cierre_proy_10,
+          description: "Entregable #2 OK",
+        },
+      ],
+    },
+    {
+      title: "L4",
+      date: data.l4_implementacion,
+      description: "Idea implementada",
+      children: [
+        {
+          date: data.act_bc_11,
+          description: "Entregable #2 OK",
+        },
+        {
+          date: data.a3_12,
+          description: "Entregable #2 OK",
+        },
+      ],
+    },
+    {
+      title: "L5",
+      date: data.l5_capturada,
+      description: "Idea capturada",
+      children: [
+        {
+          date: data.traspaso_13,
           description: "Entregable #2 OK",
         },
       ],
@@ -57,18 +104,24 @@ function TimeLineComponennt() {
   return (
     <Wrapper>
       <Timeline mode={"alternate"}>
-        {data.map((el, i) => {
+        {dataTimeLine.map((el, i) => {
           return (
             <Container key={i}>
-              <Timeline.Item dot={<DotStyled>{el.title}</DotStyled>}>
-                <BodyParent>
-                  <DateStyled>{el.date}</DateStyled>
-                  <DescriptionStyled>{el.description}</DescriptionStyled>
-                </BodyParent>
-              </Timeline.Item>
+              {el.date === null || el.date === "" ? (
+                <p></p>
+              ) : (
+                <Timeline.Item dot={<DotStyled>{el.title}</DotStyled>}>
+                  <BodyParent>
+                    <DateStyled>{el.date}</DateStyled>
+                    <DescriptionStyled>{el.description}</DescriptionStyled>
+                  </BodyParent>
+                </Timeline.Item>
+              )}
               {el.children.length > 0
                 ? el.children.map((item, i) => {
-                    return (
+                    return item.date === null || item.date === "" ? (
+                      <p key={i}></p>
+                    ) : (
                       <Timeline.Item key={i}>
                         <BodyChild>
                           <DateStyled>{item.date}</DateStyled>
@@ -87,7 +140,9 @@ function TimeLineComponennt() {
     </Wrapper>
   );
 }
-
+TimeLineComponennt.propTypes = {
+  data: PropTypes.object,
+};
 export default TimeLineComponennt;
 
 const Wrapper = styled.div`
@@ -97,7 +152,7 @@ const Wrapper = styled.div`
     overflow-y: auto;
   }
   overflow: auto;
-  height: var(--height-container);
+  height: 80vh;
   @media (max-width: 647px) {
     width: 80vw;
     overflow: auto;

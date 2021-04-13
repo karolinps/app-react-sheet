@@ -1,13 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import Item from "../Default/Item";
-import { showAllInitiatives } from "../../redux/project/projectDucks";
+import { getDataByStatus } from "../../redux/initiative/initiativeDucks";
 
 export default function ChartFunnel(props) {
   const { data } = props;
   const dispatch = useDispatch();
+  const [active, setActive] = useState(false);
+
+  const handleActive = (el) => {
+    setActive(el.id);
+    dispatch(getDataByStatus(el));
+  };
 
   return (
     <>
@@ -15,11 +21,26 @@ export default function ChartFunnel(props) {
       <Wrapper>
         {data.map((el, i) => {
           return (
-            <Container key={i} onClick={() => dispatch(showAllInitiatives(el))}>
-              <Item width={el.percentage} backgroundColor={"#E5E5E5"}>
+            <Container
+              key={i}
+              onClick={() => handleActive(el)}
+              style={{
+                color: active === el.id ? "white" : "var(--blue-dark)",
+              }}
+            >
+              <Item
+                width={el.percentage}
+                backgroundColor={active === el.id && "var(--blue-medium)"}
+              >
                 <Row>
                   <Left>
-                    <h1>{el.counter}</h1>
+                    <h1
+                      style={{
+                        color: active === el.id ? "white" : "var(--blue-dark)",
+                      }}
+                    >
+                      {el.counter}
+                    </h1>
                     <span>{el.musd} MSUD</span>
                   </Left>
 
@@ -73,7 +94,6 @@ const Container = styled.div`
     font-style: normal;
     font-weight: bold;
     font-size: var(--body-big);
-    color: var(--blue-dark);
     margin-bottom: 0;
     position: relative;
     top: 0.25em;
@@ -96,7 +116,7 @@ const Left = styled.div`
     font-style: normal;
     font-weight: normal;
     font-size: var(--body);
-    color: var(--blue-dark);
+    // color: var(--blue-dark);
     position: relative;
     left: 1em;
   }
@@ -109,7 +129,7 @@ const Right = styled.div`
     font-weight: normal;
     font-size: var(--body);
     text-align: right;
-    color: var(--blue-dark);
+    // color: var(--blue-dark);
     margin-bottom: 0;
   }
   .counter {

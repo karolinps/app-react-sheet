@@ -20,6 +20,7 @@ function Header(props) {
     inputSearch,
     placeholder,
     titleBtnNewItem,
+    drawerShowForm,
   } = props;
   const [visible, setVisible] = useState(false);
   const dispatch = useDispatch();
@@ -39,7 +40,11 @@ function Header(props) {
   const drawerFilter = <Filter visible={visible} onClose={onClose} />;
 
   const isBtnNewItem = btnNewItem ? (
-    <Button title={titleBtnNewItem} background="var(--blue-medium)" />
+    <Button
+      title={titleBtnNewItem}
+      background="var(--blue-medium)"
+      onClick={drawerShowForm}
+    />
   ) : null;
 
   const isBtnFilter = btnFilter ? (
@@ -87,6 +92,7 @@ Header.propTypes = {
   btnNewItem: PropTypes.any,
   btnFilter: PropTypes.any,
   inputSearch: PropTypes.any,
+  drawerShowForm: PropTypes.func,
 };
 export default withRouter(Header);
 

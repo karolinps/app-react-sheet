@@ -1,15 +1,32 @@
 import React from "react";
 import styled from "styled-components";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import axios from "axios";
 import Header from "../components/Default/Header";
+import DrawerComponent from "../components/Drawer/Drawer";
+import FormInitiatives from "../components/Initiative/Form";
 import ContainerCounter from "../components/ContainerCounter/ContainerCounter";
 import TableComponent from "../components/Table/Table";
 import svgFunnel from "../assets/images/funnel.svg";
 import ChartFunnel from "../components/Funnel/ChartFunnel";
+import { getAllData } from "../redux/initiative/initiativeDucks";
+import config from "../config";
 
 function Funnel() {
-  const allDataProjects = useSelector((store) => store.project.data);
-  const dataByProject = useSelector((store) => store.project.dataByProject);
+  const allDataProjects = useSelector((store) => store.initiative.data);
+  const dataByStatus = useSelector((store) => store.initiative.dataByStatus);
+  const [visible, setVisible] = React.useState(false);
+
+  const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    getData();
+  }, []);
+
+  const getData = async () => {
+    const resp = await axios.get(`${config.api}/iniciativas`);
+    dispatch(getAllData(resp.data));
+  };
 
   const data = [
     {
@@ -41,173 +58,159 @@ function Funnel() {
       title: "Título",
     },
     {
-      title: "Estados",
+      title: "Estado",
     },
     {
-      title: "Pendientes",
+      title: "Ultima revisión",
     },
   ];
 
-  let statusL0 = allDataProjects.filter((el) => el.estado === "L0");
-  let statusL1 = allDataProjects.filter((el) => el.estado === "L1");
-  let statusL2 = allDataProjects.filter((el) => el.estado === "L2");
-  let statusL3 = allDataProjects.filter((el) => el.estado === "L3");
-  let statusL4 = allDataProjects.filter((el) => el.estado === "L4");
-  let statusL5 = allDataProjects.filter((el) => el.estado === "L5");
+  //Filtrando por status
+  let statusL0 = allDataProjects.filter((el) => el.estado_wave === "L0");
+  let statusL1 = allDataProjects.filter((el) => el.estado_wave === "L1");
+  let statusL2 = allDataProjects.filter((el) => el.estado_wave === "L2");
+  let statusL3 = allDataProjects.filter((el) => el.estado_wave === "L3");
+  let statusL4 = allDataProjects.filter((el) => el.estado_wave === "L4");
+  let statusL5 = allDataProjects.filter((el) => el.estado_wave === "L5");
 
-  let dataNewL0 = [];
-  let dataNewL1 = [];
-  let dataNewL2 = [];
-  let dataNewL3 = [];
-  let dataNewL4 = [];
-  let dataNewL5 = [];
+  //Acumulador de monto por status
+  //By status L0
+  const totalMUSDL0 = () => {
+    let acum = statusL0.reduce(
+      (accu, currentValue) => accu + parseFloat(currentValue.benef_proy),
+      0
+    );
+    return acum;
+  };
 
-  let totalMUSDL0 = "";
-  let totalMUSDL1 = "";
-  let totalMUSDL2 = "";
-  let totalMUSDL3 = "";
-  let totalMUSDL4 = "";
-  let totalMUSDL5 = "";
+  //By status L1
+  const totalMUSDL1 = () => {
+    let acum = statusL1.reduce(
+      (accu, currentValue) => accu + parseFloat(currentValue.benef_proy),
+      0
+    );
+    return acum;
+  };
 
-  statusL0.map((el) => {
-    if (el.iniciativas) {
-      totalMUSDL0 = el.iniciativas.reduce(
-        (accu, currentValue) => accu + parseInt(currentValue.base),
-        0
-      );
+  //By status L2
+  const totalMUSDL2 = () => {
+    let acum = statusL2.reduce(
+      (accu, currentValue) => accu + parseFloat(currentValue.benef_proy),
+      0
+    );
+    return acum;
+  };
 
-      return el.iniciativas.map((el) => {
-        if (el) {
-          return dataNewL0.push({ ...el });
-        }
-      });
-    }
-  });
-  statusL1.map((el) => {
-    if (el.iniciativas) {
-      totalMUSDL1 = el.iniciativas.reduce(
-        (accu, currentValue) => accu + parseInt(currentValue.base),
-        0
-      );
-      return el.iniciativas.map((el) => {
-        if (el) {
-          return dataNewL1.push({ ...el });
-        }
-      });
-    }
-  });
-  statusL2.map((el) => {
-    if (el.iniciativas) {
-      totalMUSDL2 = el.iniciativas.reduce(
-        (accu, currentValue) => accu + parseInt(currentValue.base),
-        0
-      );
+  //By status L3
+  const totalMUSDL3 = () => {
+    let acum = statusL3.reduce(
+      (accu, currentValue) => accu + parseFloat(currentValue.benef_proy),
+      0
+    );
+    return acum;
+  };
 
-      return el.iniciativas.map((el) => {
-        if (el) {
-          return dataNewL2.push({ ...el });
-        }
-      });
-    }
-  });
-  statusL3.map((el) => {
-    if (el.iniciativas) {
-      totalMUSDL3 = el.iniciativas.reduce(
-        (accu, currentValue) => accu + parseInt(currentValue.base),
-        0
-      );
-      return el.iniciativas.map((el) => {
-        if (el) {
-          return dataNewL3.push({ ...el });
-        }
-      });
-    }
-  });
-  statusL4.map((el) => {
-    if (el.iniciativas) {
-      totalMUSDL4 = el.iniciativas.reduce(
-        (accu, currentValue) => accu + parseInt(currentValue.base),
-        0
-      );
-      return el.iniciativas.map((el) => {
-        if (el) {
-          return dataNewL4.push({ ...el });
-        }
-      });
-    }
-  });
-  statusL5.map((el) => {
-    if (el.iniciativas) {
-      totalMUSDL5 = el.iniciativas.reduce(
-        (accu, currentValue) => accu + parseInt(currentValue.base),
-        0
-      );
-      return el.iniciativas.map((el) => {
-        if (el) {
-          return dataNewL5.push({ ...el });
-        }
-      });
-    }
-  });
+  //By status L4
+  const totalMUSDL4 = () => {
+    let acum = statusL4.reduce(
+      (accu, currentValue) => accu + parseFloat(currentValue.benef_proy),
+      0
+    );
+    return acum;
+  };
+
+  //By status L5
+  const totalMUSDL5 = () => {
+    let acum = statusL5.reduce(
+      (accu, currentValue) => accu + parseFloat(currentValue.benef_proy),
+      0
+    );
+    return acum;
+  };
+  //Data embudo
   const dataFunnel = [
     {
+      id: "1",
       percentage: "100",
       counter: statusL0.length,
       label: "Idea",
-      musd: totalMUSDL0,
+      musd: totalMUSDL0().toFixed(2),
       data: statusL0,
-      allInitiatives: dataNewL0,
     },
     {
+      id: "2",
       percentage: "90",
       counter: statusL1.length,
       label: "Validacion",
-      musd: totalMUSDL1,
+      musd: totalMUSDL1().toFixed(2),
       data: statusL1,
-      allInitiatives: dataNewL1,
     },
     {
+      id: "3",
       percentage: "75",
       counter: statusL2.length,
       label: "Planeación",
-      musd: totalMUSDL2,
+      musd: totalMUSDL2().toFixed(2),
       data: statusL2,
-      allInitiatives: dataNewL2,
     },
     {
+      id: "4",
       percentage: "60",
       counter: statusL3.length,
       label: "Implementación",
-      musd: totalMUSDL3,
+      musd: totalMUSDL3().toFixed(2),
       data: statusL3,
-      allInitiatives: dataNewL3,
     },
     {
+      id: "5",
       percentage: "45",
       counter: statusL4.length,
       label: "Monitoreo",
-      musd: totalMUSDL4,
+      musd: totalMUSDL4().toFixed(2),
       data: statusL4,
-      allInitiatives: dataNewL4,
     },
     {
+      id: "6",
       percentage: "35",
       counter: statusL5.length,
       label: "Captura",
-      musd: totalMUSDL5,
+      musd: totalMUSDL5().toFixed(2),
       data: statusL5,
-      allInitiatives: dataNewL5,
     },
   ];
+
+  const showDrawer = () => {
+    setVisible(true);
+  };
+  const onClose = () => {
+    setVisible(false);
+  };
+  const drawer = (
+    <DrawerComponent
+      title={"Nueva Iniciativa"}
+      placement="right"
+      closable={false}
+      onClose={onClose}
+      visible={visible}
+      width={400}
+      titleButton={"Crear Iniciativa"}
+      titleButtonRight={"Borrar"}
+    >
+      <FormInitiatives />
+    </DrawerComponent>
+  );
+
   return (
     <>
+      {drawer}
       <Header
         title="Embudo"
         icon={svgFunnel}
         btnLogout
         btnFilter
         btnNewItem
-        titleBtnNewItem={"Nueva Oportunidad"}
+        titleBtnNewItem={"Nueva Iniciativa"}
+        drawerShowForm={showDrawer}
       />
       <ContainerCounter data={data} />
       <Row>
@@ -217,7 +220,8 @@ function Funnel() {
         <Col>
           <TableComponent
             titleHeader={titleHeader}
-            dataTable={dataByProject ? dataByProject.allInitiatives : []}
+            dataTable={dataByStatus ? dataByStatus.data : []}
+            urlApi={`${config.api}/iniciativas`}
           />
         </Col>
       </Row>

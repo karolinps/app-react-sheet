@@ -1,41 +1,93 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { Input, Radio } from "antd";
+import PropTypes from "prop-types";
+import axios from "axios";
+import moment from "moment";
+import config from "../../config";
 import Item from "../Default/Item";
-import { Input } from "antd";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllObservations } from "../../redux/observation/observationDucks";
 
-function AddItemList() {
+import { DeleteOutlined } from "@ant-design/icons";
+
+function AddItemList(props) {
+  const { data } = props;
   const [value, setValue] = useState("");
-  const [data, setData] = useState([
-    {
-      description:
-        "Aqui ingreso una observación al respectivo id del problema en la la hoja proyecto-observación",
-      date: "22/10/2021",
-    },
-  ]);
-  const handleConfirm = () => {
-    const dataNew = [
-      {
-        date: "22/10/2021",
-        description: value,
-      },
-    ];
-    setData(data.concat(dataNew));
+  const [valueRadio, setValueRadio] = useState("riesgo");
+  const [visible, setVisible] = useState("");
+
+  const dataListUpdate = useSelector((store) => store.observation.data);
+
+  const dispatch = useDispatch();
+
+  const handleConfirm = async () => {
+    const dataNew = {
+      id: Math.random(),
+      fecha: moment(new Date()).format("L"),
+      descripcion: value,
+      type: valueRadio,
+    };
+
+    await axios.post(`${config.api}/observaciones`, dataNew);
+    setValueRadio("riesgo");
+    dispatch(getAllObservations(dataListUpdate));
     setValue("");
   };
+
+  const onChange = (e) => {
+    setValueRadio(e.target.value);
+  };
+
+  const showIcon = (i) => {
+    setVisible(() => {
+      return { [i]: true };
+    });
+  };
+  const hideIcon = (i) => {
+    setVisible(() => {
+      return { [i]: false };
+    });
+  };
+
+  const deleteItem = async (id) => {
+    await axios.delete(`${config.api}/observaciones/${id}`);
+
+    dispatch(getAllObservations(dataListUpdate));
+  };
+
   return (
     <Wrapper>
       <Container>
         {data.map((el, i) => {
           return (
-            <div style={{ marginBottom: "1em", position: "relative" }} key={i}>
+            <div
+              style={{ marginBottom: "1em", position: "relative" }}
+              key={i}
+              onMouseEnter={() => showIcon(i)}
+              onMouseLeave={() => hideIcon(i)}
+            >
               <Item
                 backgroundColor={"var(--gray-medium)"}
                 borderRadius={5}
                 height={90}
               >
                 <BodyStyled>
-                  <DateStyled>{el.date}</DateStyled>
-                  <DescriptionStyled>{el.description}</DescriptionStyled>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                  >
+                    <DateStyled>{el.fecha}</DateStyled>
+                    {visible[i] && (
+                      <Icon onClick={() => deleteItem(el.id)}>
+                        <DeleteOutlined />
+                      </Icon>
+                    )}
+                  </div>
+                  <DescriptionStyled>{el.descripcion}</DescriptionStyled>
                 </BodyStyled>
               </Item>
             </div>
@@ -43,9 +95,11 @@ function AddItemList() {
         })}
       </Container>
       <Filters>
-        <div>Riesgo</div>
-        <div>Problema</div>
-        <div>hito</div>
+        <Radio.Group onChange={onChange} value={valueRadio}>
+          <Radio value={"riesgo"}>Riesgo</Radio>
+          <Radio value={"problema"}>Problema</Radio>
+          <Radio value={"hito"}>hito</Radio>
+        </Radio.Group>
       </Filters>
       <Footer>
         <Input
@@ -59,13 +113,15 @@ function AddItemList() {
     </Wrapper>
   );
 }
+AddItemList.propTypes = {
+  data: PropTypes.array.isRequired,
+};
 
 export default AddItemList;
 
 const Wrapper = styled.div`
   height: 100%;
   position: relative;
-
   p {
     margin-bottom: 0px;
     font-family: var(--font-opensans);
@@ -89,8 +145,13 @@ const DescriptionStyled = styled.p`
 
 const Container = styled.div`
   padding: 0.5em 1em;
-  position: relative;
   margin-bottom: 1em;
+  position: absolute;
+  right: 0;
+  left: 0;
+  bottom: 12em;
+  top: 0;
+  overflow: auto;
 `;
 const Footer = styled.div`
   position: absolute;
@@ -129,7 +190,16 @@ const Filters = styled.div`
   color: var(--gray-dark);
   position: absolute;
   bottom: 10em;
+  margin-left: 1em;
   div {
     margin: 0 1em;
   }
+`;
+
+const Icon = styled.div`
+  position: relative;
+  top: 0.8em;
+  right: 1em;
+  color: var(--blue-dark);
+  cursor: pointer;
 `;

@@ -4,62 +4,88 @@ import PropTypes from "prop-types";
 
 function Initiative(props) {
   const { dataShow } = props;
+
+  const statusCapex =
+    dataShow.aux_capex === "r"
+      ? "var(--danger)"
+      : dataShow.aux_capex === "a"
+      ? "yellow"
+      : "var(--green)";
+
+  const statusPlazo =
+    dataShow.aux_plazo === "r"
+      ? "var(--danger)"
+      : dataShow.aux_plazo === "a"
+      ? "yellow"
+      : "var(--green)";
+
+  const statusBeneficio =
+    dataShow.aux_benef === "r"
+      ? "var(--danger)"
+      : dataShow.aux_benef === "a"
+      ? "yellow"
+      : "var(--green)";
+
   return (
     <Wrapper>
       <TitleStyled>Descripción</TitleStyled>
       <ContentStyled style={{ height: "12vh", overflowY: "auto" }}>
-        {dataShow.descripcion}
+        {dataShow.descr}
       </ContentStyled>
       {/*Carpex */}
       <Container>
         <TitleStyled>Capex (USD)</TitleStyled>
-        <Circle></Circle>
+        <Circle
+          style={{
+            backgroundColor: statusCapex,
+          }}
+        ></Circle>
       </Container>
       <Container>
         <ContentStyled style={{ color: "var(--blue-dark)" }}>
           Comprometido
         </ContentStyled>
-        <ContentStyled>200.00</ContentStyled>
+        <ContentStyled>{dataShow.capex_compr}</ContentStyled>
       </Container>
       <Container>
         <ContentStyled style={{ color: "var(--blue-dark)" }}>
-          Comprometido
+          Proyectado
         </ContentStyled>
-        <ContentStyled>200.00</ContentStyled>
+        <ContentStyled>{dataShow.capex_proy}</ContentStyled>
       </Container>
       {/*Plazo */}
       <Container>
         <TitleStyled>Plazo</TitleStyled>
-        <Circle style={{ background: "var(--danger)" }}></Circle>
+        <Circle style={{ background: statusPlazo }}></Circle>
       </Container>
       <Container>
         <ContentStyled style={{ color: "var(--blue-dark)" }}>
           Comprometido
         </ContentStyled>
-        <ContentStyled>{dataShow.fecha_inicio_implementacion_l3}</ContentStyled>
+        <ContentStyled>{dataShow.fecha_fin_compr}</ContentStyled>
       </Container>
       <Container>
         <ContentStyled style={{ color: "var(--blue-dark)" }}>
-          Comprometido
+          Proyectado
         </ContentStyled>
-        <ContentStyled>{dataShow.fecha_inicio_implementacion_l3}</ContentStyled>
+        <ContentStyled>{dataShow.fecha_fin_proy}</ContentStyled>
       </Container>
       {/**Beneficio USD */}
       <Container>
         <TitleStyled>Beneficio USD</TitleStyled>
-        <Circle style={{ background: "var(--green)" }}></Circle>
+        <Circle style={{ background: statusBeneficio }}></Circle>
       </Container>
       <Container>
         <ContentStyled style={{ color: "var(--blue-dark)" }}>
           Comprometido
         </ContentStyled>
-        <ContentStyled>200.00</ContentStyled>
+        <ContentStyled>{dataShow.benef_compr}</ContentStyled>
       </Container>
       <Container>
         <ContentStyled style={{ color: "var(--blue-dark)" }}>
-          Comprometido
+          Proyectado
         </ContentStyled>
-        <ContentStyled>200.00</ContentStyled>
+        <ContentStyled>{dataShow.benef_proy}</ContentStyled>
       </Container>
       {/**Equipo */}
       <Container>
@@ -69,13 +95,19 @@ function Initiative(props) {
         <ContentStyled style={{ color: "var(--blue-dark)" }}>
           Cliente interno
         </ContentStyled>
-        <ContentStyled>Roberto Parra</ContentStyled>
+        <ContentStyled>{dataShow.cliente_int}</ContentStyled>
       </Container>
       <Container>
         <ContentStyled style={{ color: "var(--blue-dark)" }}>
           Ingeniero a cargo
         </ContentStyled>
-        <ContentStyled>Diego Zamora</ContentStyled>
+        <ContentStyled>{dataShow.ingeniero_exop}</ContentStyled>
+      </Container>
+      <Container>
+        <ContentStyled style={{ color: "var(--blue-dark)" }}>
+          Ingeniero backup
+        </ContentStyled>
+        <ContentStyled>{dataShow.ing_exop_b}</ContentStyled>
       </Container>
     </Wrapper>
   );

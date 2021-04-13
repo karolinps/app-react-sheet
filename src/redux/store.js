@@ -1,13 +1,13 @@
 import { createStore, combineReducers, compose, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 import authReducer from "./auth/authDucks";
-import projectReducer from "./project/projectDucks";
 import initiativeReducer from "./initiative/initiativeDucks";
+import observationReducer from "./observation/observationDucks";
 
 const rootReducer = combineReducers({
   user: authReducer,
-  project: projectReducer,
   initiative: initiativeReducer,
+  observation: observationReducer,
 });
 
 export default function generateStore() {

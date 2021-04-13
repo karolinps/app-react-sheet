@@ -1,24 +1,29 @@
-import React, { useState } from "react";
+import React from "react";
 import Select from "react-select";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 
 function SelectComponent(props) {
-  const { options, placeholder, useRef } = props;
-  const [selectedOption, setSelectedOption] = useState(null);
-  const handleChange = (selectedOption) => {
-    setSelectedOption(selectedOption);
-  };
+  const {
+    options,
+    placeholder,
+    useRef,
+    handleChange,
+    getValue,
+    getLabel,
+  } = props;
+
   return (
     <Wrapper>
       <Select
-        value={selectedOption}
         onChange={handleChange}
         options={options}
         className="select-customer"
         autoFocus={false}
         placeholder={placeholder}
         isSearchable={false}
+        getOptionLabel={getLabel}
+        getOptionValue={getValue}
         ref={useRef}
       />
     </Wrapper>
@@ -29,6 +34,9 @@ SelectComponent.propTypes = {
   options: PropTypes.array,
   placeholder: PropTypes.string,
   useRef: PropTypes.any,
+  handleChange: PropTypes.func,
+  getLabel: PropTypes.func,
+  getValue: PropTypes.func,
 };
 export default SelectComponent;
 

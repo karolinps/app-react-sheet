@@ -5,10 +5,19 @@ import PropTypes from "prop-types";
 import ShowInitiatives from "../Initiative/Initiative";
 import { withRouter } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { getByIniatitive } from "../../redux/initiative/initiativeDucks";
+import axios from "axios";
+import {
+  clearFilterAll,
+  getByIniatitive,
+  filterByFirstTrimester,
+  filterBySecondTrimester,
+  filterByThirdTrimester,
+  filterByFourthTrimester,
+} from "../../redux/initiative/initiativeDucks";
+import Filter from "./Filter";
 
 function TableComponent(props) {
-  const { titleHeader, dataTable } = props;
+  const { titleHeader, dataTable, urlApi } = props;
   const [visible, setVisible] = useState(false);
   const [hover, setHover] = useState("");
   const [dataShow, setDataShow] = useState({});
@@ -34,7 +43,7 @@ function TableComponent(props) {
   };
   const drawer = (
     <DrawerComponent
-      title={dataShow.titulo}
+      title={dataShow.titulo_proy}
       placement="right"
       closable={false}
       onClose={onClose}
@@ -46,10 +55,39 @@ function TableComponent(props) {
       <ShowInitiatives dataShow={dataShow}></ShowInitiatives>
     </DrawerComponent>
   );
+
+  const clearFilter = () => {
+    dispatch(clearFilterAll());
+  };
+
+  const filter = async (action) => {
+    let resData = await axios.get(urlApi).then((res) => {
+      return res.data;
+    });
+    if (action === 1) {
+      dispatch(filterByFirstTrimester(resData));
+    } else if (action === 2) {
+      dispatch(filterBySecondTrimester(resData));
+    } else if (action === 3) {
+      dispatch(filterByThirdTrimester(resData));
+    } else if (action === 4) {
+      dispatch(filterByFourthTrimester(resData));
+    }
+  };
+
   return (
     <>
       {drawer}
-      <TitleStyled>Listado de iniciativas</TitleStyled>
+      <HeaderContainer>
+        <TitleStyled>Listado de iniciativas</TitleStyled>
+        <Filter
+          clear={clearFilter}
+          filterByT1={() => filter(1)}
+          filterByT2={() => filter(2)}
+          filterByT3={() => filter(3)}
+          filterByT4={() => filter(4)}
+        />
+      </HeaderContainer>
       <Wrapper>
         <TableStyled>
           <thead>
@@ -77,7 +115,7 @@ function TableComponent(props) {
                       color: hover === i ? "#fff" : "",
                     }}
                   >
-                    00{i + 1}
+                    {el.id}
                   </td>
                   <td
                     style={{
@@ -85,7 +123,7 @@ function TableComponent(props) {
                       color: hover === i ? "#fff" : "",
                     }}
                   >
-                    {el.titulo}
+                    {el.titulo_proy}
                   </td>
                   <td
                     style={{
@@ -93,7 +131,7 @@ function TableComponent(props) {
                       color: hover === i ? "#fff" : "",
                     }}
                   >
-                    {el.estado_simplificado}
+                    {el.status}
                   </td>
                   <td
                     style={{
@@ -101,7 +139,7 @@ function TableComponent(props) {
                       color: hover === i ? "#fff" : "",
                     }}
                   >
-                    {el.pending}
+                    {el.ult_com}
                   </td>
                 </tr>
               );
@@ -117,6 +155,7 @@ TableComponent.propTypes = {
   titleHeader: PropTypes.array,
   dataTable: PropTypes.array,
   history: PropTypes.object,
+  urlApi: PropTypes.string,
 };
 export default withRouter(TableComponent);
 
@@ -180,4 +219,10 @@ const TitleStyled = styled.h2`
   @media (max-width: 991px) {
     margin-top: 1em;
   }
+`;
+
+const HeaderContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
 `;

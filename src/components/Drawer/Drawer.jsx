@@ -24,18 +24,20 @@ function DrawerComponent(props) {
         onClose={onClose}
         visible={visible}
         width={400}
+        footer={
+          <FooterButton>
+            <Button
+              title={titleButton}
+              background="var(--blue-medium)"
+              onClick={handleAction}
+            />
+            {titleButtonRight && (
+              <Button title={titleButtonRight} background="var(--danger)" />
+            )}
+          </FooterButton>
+        }
       >
         {children}
-        <FooterButton>
-          <Button
-            title={titleButton}
-            background="var(--blue-medium)"
-            onClick={handleAction}
-          />
-          {titleButtonRight && (
-            <Button title={titleButtonRight} background="var(--danger)" />
-          )}
-        </FooterButton>
       </Drawer>
     </>
   );
@@ -68,11 +70,11 @@ const TitleStyled = styled.h1`
 const FooterButton = styled.div`
   display: flex;
   justify-content: center;
-  position: absolute;
-  right: 18px;
-  left: 18px;
-  margin: auto;
-  bottom: 18px;
+  // position: absolute;
+  // right: 18px;
+  // left: 18px;
+  // margin: auto;
+  // bottom: 18px;
   text-align: center;
   button {
     width: 100%;

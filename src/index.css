@@ -28,7 +28,7 @@ body {
 }
 
 .ant-layout {
-  background: #fff !important;
+  background: #4f4f50 !important;
 }
 
 /*---Barra customer--*/
@@ -96,4 +96,20 @@ body {
 }
 .ant-drawer-header {
   padding: 5px 20px !important;
+}
+.ant-radio-checked .ant-radio-inner {
+  border-color: white !important;
+}
+.ant-radio-inner::after {
+  position: absolute;
+  top: 0px !important;
+  left: 0px !important;
+  display: table;
+  width: 15px !important;
+  height: 15px !important;
+  background-color: var(--blue-dark) !important;
+}
+.ant-radio-inner {
+  background-color: var(--gray-high) !important;
+  border-color: var(--gray-high) !important;
 }

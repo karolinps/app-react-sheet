@@ -20,7 +20,7 @@ function Item(props) {
 
 Item.propTypes = {
   children: PropTypes.node,
-  backgroundColor: PropTypes.string,
+  backgroundColor: PropTypes.any,
   width: PropTypes.string,
   borderRadius: PropTypes.number,
   height: PropTypes.number,
