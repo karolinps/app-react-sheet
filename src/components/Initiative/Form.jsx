@@ -5,8 +5,8 @@ function Form() {
   return (
     <Wrapper>
       <TabStyled>
-        <div>Detalle</div>
-        <div>Priorización</div>
+        <HeaderTab>Detalle</HeaderTab>
+        <HeaderTab>Priorización</HeaderTab>
       </TabStyled>
     </Wrapper>
   );
@@ -18,4 +18,14 @@ const Wrapper = styled.div``;
 
 const TabStyled = styled.div`
   display: flex;
+`;
+
+const HeaderTab = styled.div`
+  margin: 0 0.5em;
+  font-family: var(font-opensans);
+  font-style: normal;
+  font-weight: normal;
+  font-size: var(--body);
+  line-height: 20px;
+  color: var(--blue-dark);
 `;

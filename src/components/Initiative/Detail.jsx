@@ -33,8 +33,9 @@ function Detail(props) {
 
   React.useEffect(() => {
     getDataList();
-    //eslint-disable-next-line react-hooks/exhaustive-deps
     getByInitiative();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getDataList = () => {
