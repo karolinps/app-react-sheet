@@ -56,7 +56,7 @@ const Wrapper = styled.div`
     font-family: Roboto;
     font-style: normal;
     font-weight: normal;
-    font-size: 1.3em;
+    font-size: var(--subtitle);
     line-height: 23px;
     letter-spacing: 0.05em;
     color: #8a8a8a;
@@ -70,7 +70,7 @@ const Wrapper = styled.div`
     font-family: var(--font-roboto);
     font-style: normal;
     font-weight: normal;
-    font-size: 15px;
+    font-size: var(--body);
     letter-spacing: 0.5px;
     color: black;
   }
