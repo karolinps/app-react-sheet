@@ -141,7 +141,7 @@ function TimeLineComponennt(props) {
   );
 }
 TimeLineComponennt.propTypes = {
-  data: PropTypes.object,
+  data: PropTypes.any,
 };
 export default TimeLineComponennt;
 

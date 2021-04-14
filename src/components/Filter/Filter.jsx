@@ -6,10 +6,12 @@ import Select from "../Default/Select";
 import DatePicker from "../Default/DatePicker";
 import Button from "../Default/Button";
 import { useDispatch } from "react-redux";
+import moment from "moment";
 import {
   filterByCountry,
   getAllData,
   filterByArea,
+  filterByDate,
 } from "../../redux/initiative/initiativeDucks";
 import axios from "axios";
 import config from "../../config";
@@ -117,15 +119,27 @@ function Filter(props) {
   const selectAreaRef = useRef();
   const [selectedCountry, setSelectedCountry] = useState("");
   const [selectedArea, setSelectedArea] = useState("");
+  const [dateFrom, setDateFrom] = useState("");
+  const [dateTo, setDateTo] = useState("");
+
   const dispacth = useDispatch();
 
-  const clearFilter = () => {
+  const clearFilter = async () => {
     selectSizeRef.current.select.clearValue();
     selectStatusRef.current.select.clearValue();
     selectProfileRef.current.select.clearValue();
     selectTypeRef.current.select.clearValue();
     selectCountryRef.current.select.clearValue();
     selectAreaRef.current.select.clearValue();
+    setSelectedCountry("");
+    setSelectedArea("");
+    setDateTo("");
+    setDateFrom("");
+
+    const resp = await axios.get(`${config.api_sheet}/base_2021`);
+    dispacth(getAllData(resp.data));
+    dispacth(filterByCountry("", false));
+    onClose();
   };
 
   const handleChange = (e) => {
@@ -139,6 +153,13 @@ function Filter(props) {
       setSelectedArea(e.value);
     }
   };
+
+  const handleChangeDate = (dates, dateStrings) => {
+    console.log(dates, dateTo);
+    setDateFrom(moment(dateStrings[0]).format("DD/MM/YYYY"));
+    setDateTo(moment(dateStrings[1]).format("DD/MM/YYYY"));
+  };
+
   const getValue = (option) => {
     return option.value;
   };
@@ -148,11 +169,12 @@ function Filter(props) {
   const filter = async () => {
     dispacth(filterByCountry(selectedCountry));
     dispacth(filterByArea(selectedArea));
+    dispacth(filterByDate(dateFrom));
+
     try {
       const resp = await axios.get(
-        `${config.api}/iniciativas?pais=${selectedCountry}&area=${selectedArea}`
+        `${config.api_sheet}/base_2021/search?pais=*${selectedCountry}*&area=*${selectedArea}*&fecha_creacion=*${dateFrom}`
       );
-
       dispacth(getAllData(resp.data));
       onClose();
     } catch (error) {
@@ -207,7 +229,15 @@ function Filter(props) {
           getOptionValue={getValue}
           handleChange={handleChangeArea}
         />
-        <DatePicker />
+        <DatePicker onChangeDate={handleChangeDate} />
+        {/* <Select
+          options={area}
+          placeholder={"¿Esta en wave?"}
+          useRef={'selectAreaRef'}
+          getOptionLabel={getLabel}
+          getOptionValue={getValue}
+          handleChange={handleChangeArea}
+        /> */}
         <FooterButton>
           <Button
             title="Aplicar filtros"

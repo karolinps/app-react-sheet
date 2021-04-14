@@ -13,8 +13,9 @@ import { getAllData } from "../redux/initiative/initiativeDucks";
 import config from "../config";
 
 function Funnel() {
-  const allDataProjects = useSelector((store) => store.initiative.data);
+  const allDataInitiatives = useSelector((store) => store.initiative.data);
   const dataByStatus = useSelector((store) => store.initiative.dataByStatus);
+  const activeFilter = useSelector((store) => store.initiative.activeFilter);
   const [visible, setVisible] = React.useState(false);
 
   const dispatch = useDispatch();
@@ -26,32 +27,80 @@ function Funnel() {
   }, []);
 
   const getData = async () => {
-    const resp = await axios.get(`${config.api}/iniciativas`);
+    const resp = await axios.get(`${config.api_sheet}/base_2021`);
     dispatch(getAllData(resp.data));
   };
 
+  //Total de counter
+  const totalBenefCapt = () => {
+    let acum = allDataInitiatives.reduce(
+      (accu, currentValue) => accu - -currentValue.benef_captura,
+      0
+    );
+    return acum;
+  };
+  const totalBenefCompr = () => {
+    let acum = allDataInitiatives.reduce(
+      (accu, currentValue) => accu - -currentValue.benef_compr,
+      0
+    );
+    return acum;
+  };
+
+  const totalMetaAnio = () => {
+    let acum = allDataInitiatives.reduce(
+      (accu, currentValue) => accu + parseInt(currentValue.meta_benef_año),
+      0
+    );
+    return acum;
+  };
+
+  const totalMetaByCountry = () => {
+    let acum = allDataInitiatives.reduce(
+      (accu, currentValue) => accu + parseInt(currentValue.meta_pais),
+      0
+    );
+    return acum;
+  };
+
+  //Total promedio real / plan
+  const totalAvancePercent = () => {
+    let prome = totalBenefCapt() ? totalBenefCapt() / totalMetaAnio() : 0;
+    return prome;
+  };
+
+  //Total promedio proyectado / plan
+  const totalProyecPercent = () => {
+    let prome = totalBenefCompr() ? totalBenefCompr() / totalMetaAnio() : 0;
+    return prome;
+  };
+
+  const validateByFilterCountry = activeFilter
+    ? totalMetaByCountry()
+    : totalMetaAnio();
   const data = [
     {
       title: "Plan",
-      counter: "100",
+      counter: validateByFilterCountry,
     },
     {
       title: "Real",
-      counter: "80",
+      counter: totalBenefCapt(),
     },
     {
       title: "% Avance",
-      counter: "80 %",
+      counter: `${totalAvancePercent()} %`,
     },
     {
       title: "Proyectado",
-      counter: 90,
+      counter: totalBenefCompr(),
     },
     {
       title: "% Proyectado",
-      counter: "90 %",
+      counter: `${totalProyecPercent().toFixed(2)} %`,
     },
   ];
+
   const titleHeader = [
     {
       title: "#",
@@ -68,18 +117,18 @@ function Funnel() {
   ];
 
   //Filtrando por status
-  let statusL0 = allDataProjects.filter((el) => el.estado_wave === "L0");
-  let statusL1 = allDataProjects.filter((el) => el.estado_wave === "L1");
-  let statusL2 = allDataProjects.filter((el) => el.estado_wave === "L2");
-  let statusL3 = allDataProjects.filter((el) => el.estado_wave === "L3");
-  let statusL4 = allDataProjects.filter((el) => el.estado_wave === "L4");
-  let statusL5 = allDataProjects.filter((el) => el.estado_wave === "L5");
+  let statusL0 = allDataInitiatives.filter((el) => el.estado_wave === "L0");
+  let statusL1 = allDataInitiatives.filter((el) => el.estado_wave === "L1");
+  let statusL2 = allDataInitiatives.filter((el) => el.estado_wave === "L2");
+  let statusL3 = allDataInitiatives.filter((el) => el.estado_wave === "L3");
+  let statusL4 = allDataInitiatives.filter((el) => el.estado_wave === "L4");
+  let statusL5 = allDataInitiatives.filter((el) => el.estado_wave === "L5");
 
   //Acumulador de monto por status
   //By status L0
   const totalMUSDL0 = () => {
     let acum = statusL0.reduce(
-      (accu, currentValue) => accu + parseFloat(currentValue.benef_proy),
+      (accu, currentValue) => accu - -currentValue.benef_compr,
       0
     );
     return acum;
@@ -88,7 +137,7 @@ function Funnel() {
   //By status L1
   const totalMUSDL1 = () => {
     let acum = statusL1.reduce(
-      (accu, currentValue) => accu + parseFloat(currentValue.benef_proy),
+      (accu, currentValue) => accu - -currentValue.benef_compr,
       0
     );
     return acum;
@@ -97,7 +146,7 @@ function Funnel() {
   //By status L2
   const totalMUSDL2 = () => {
     let acum = statusL2.reduce(
-      (accu, currentValue) => accu + parseFloat(currentValue.benef_proy),
+      (accu, currentValue) => accu - -currentValue.benef_compr,
       0
     );
     return acum;
@@ -106,7 +155,7 @@ function Funnel() {
   //By status L3
   const totalMUSDL3 = () => {
     let acum = statusL3.reduce(
-      (accu, currentValue) => accu + parseFloat(currentValue.benef_proy),
+      (accu, currentValue) => accu - -currentValue.benef_compr,
       0
     );
     return acum;
@@ -115,7 +164,7 @@ function Funnel() {
   //By status L4
   const totalMUSDL4 = () => {
     let acum = statusL4.reduce(
-      (accu, currentValue) => accu + parseFloat(currentValue.benef_proy),
+      (accu, currentValue) => accu - -currentValue.benef_compr,
       0
     );
     return acum;
@@ -124,19 +173,21 @@ function Funnel() {
   //By status L5
   const totalMUSDL5 = () => {
     let acum = statusL5.reduce(
-      (accu, currentValue) => accu + parseFloat(currentValue.benef_proy),
+      (accu, currentValue) => accu - -currentValue.benef_compr,
       0
     );
     return acum;
   };
-  //Data embudo
+
+
+  //Data grid
   const dataFunnel = [
     {
       id: "1",
       percentage: "100",
       counter: statusL0.length,
       label: "Idea",
-      musd: totalMUSDL0().toFixed(2),
+      musd: totalMUSDL0(),
       data: statusL0,
     },
     {
@@ -144,7 +195,7 @@ function Funnel() {
       percentage: "90",
       counter: statusL1.length,
       label: "Validacion",
-      musd: totalMUSDL1().toFixed(2),
+      musd: totalMUSDL1(),
       data: statusL1,
     },
     {
@@ -152,7 +203,7 @@ function Funnel() {
       percentage: "75",
       counter: statusL2.length,
       label: "Planeación",
-      musd: totalMUSDL2().toFixed(2),
+      musd: totalMUSDL2(),
       data: statusL2,
     },
     {
@@ -160,7 +211,7 @@ function Funnel() {
       percentage: "60",
       counter: statusL3.length,
       label: "Implementación",
-      musd: totalMUSDL3().toFixed(2),
+      musd: totalMUSDL3(),
       data: statusL3,
     },
     {
@@ -168,7 +219,7 @@ function Funnel() {
       percentage: "45",
       counter: statusL4.length,
       label: "Monitoreo",
-      musd: totalMUSDL4().toFixed(2),
+      musd: totalMUSDL4(),
       data: statusL4,
     },
     {
@@ -176,7 +227,7 @@ function Funnel() {
       percentage: "35",
       counter: statusL5.length,
       label: "Captura",
-      musd: totalMUSDL5().toFixed(2),
+      musd: totalMUSDL5(),
       data: statusL5,
     },
   ];
@@ -195,10 +246,8 @@ function Funnel() {
       onClose={onClose}
       visible={visible}
       width={400}
-      titleButton={"Crear Iniciativa"}
-      titleButtonRight={"Borrar"}
     >
-      <FormInitiatives />
+      <FormInitiatives drawerOnClose={onClose} />
     </DrawerComponent>
   );
 
@@ -223,7 +272,7 @@ function Funnel() {
           <TableComponent
             titleHeader={titleHeader}
             dataTable={dataByStatus ? dataByStatus.data : []}
-            urlApi={`${config.api}/iniciativas`}
+            urlApi={`${config.api_sheet}/base_2021`}
           />
         </Col>
       </Row>

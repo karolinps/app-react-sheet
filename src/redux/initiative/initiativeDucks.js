@@ -6,6 +6,9 @@ const dataInitial = {
   dataByStatus: { counter: "", data: [], label: "", musd: "", percentage: "" },
   filterCountry: "",
   filterArea: "",
+  filterDate: "",
+  activeFilter: false,
+  dataBySeasonsAndStatus: [],
 };
 
 //Actions
@@ -19,11 +22,14 @@ const FILTER_BY_THIRD_TRIMESTER = "FILTER_BY_THIRD_TRIMESTER";
 const FILTER_BY_FOURTH_TRIMESTER = "FILTER_BY_FOURTH_TRIMESTER";
 const FILTER_BY_COUNTRY = "FILTER_BY_COUNTRY";
 const FILTER_BY_AREA = "FILTER_BY_AREA";
+const FILTER_BY_DATE = "FILTER_BY_DATE";
+const FILTER_BY_SEASONS_AND_STATUS = "FILTER_BY_SEASONS_AND_STATUS";
 
 //Reducers
 export default function initiativeReducer(state = dataInitial, action) {
   const { type, payload } = action;
 
+  console.log(payload);
   switch (type) {
     case GET_DATA:
       return { ...state, data: payload };
@@ -40,7 +46,7 @@ export default function initiativeReducer(state = dataInitial, action) {
       };
     case FILTER_BY_FIRST_TRIMESTER: {
       const data = payload.filter(
-        (el) => moment(el.fecha_inicio_implementacion).quarter() === 1
+        (el) => moment(el.fecha_fin_compr).quarter() === 1
       );
       return {
         ...state,
@@ -51,7 +57,7 @@ export default function initiativeReducer(state = dataInitial, action) {
     }
     case FILTER_BY_SECOND_TRIMESTER: {
       const data = payload.filter(
-        (el) => moment(el.fecha_inicio_implementacion).quarter() === 2
+        (el) => moment(el.fecha_fin_compr).quarter() === 2
       );
       return {
         ...state,
@@ -62,7 +68,7 @@ export default function initiativeReducer(state = dataInitial, action) {
     }
     case FILTER_BY_THIRD_TRIMESTER: {
       const data = payload.filter(
-        (el) => moment(el.fecha_inicio_implementacion).quarter() === 3
+        (el) => moment(el.fecha_fin_compr).quarter() === 3
       );
       return {
         ...state,
@@ -73,7 +79,7 @@ export default function initiativeReducer(state = dataInitial, action) {
     }
     case FILTER_BY_FOURTH_TRIMESTER: {
       const data = payload.filter(
-        (el) => moment(el.fecha_inicio_implementacion).quarter() === 4
+        (el) => moment(el.fecha_fin_compr).quarter() === 4
       );
       return {
         ...state,
@@ -84,9 +90,9 @@ export default function initiativeReducer(state = dataInitial, action) {
     }
     case FILTER_BY_COUNTRY: {
       const filterCountry = state.data.filter((el) =>
-        el.pais.toLowerCase().includes(payload.toLowerCase())
+        el.pais.includes(payload)
       );
-      return { ...state, data: filterCountry };
+      return { ...state, data: filterCountry, activeFilter: true };
     }
     case FILTER_BY_AREA: {
       const filterArea = state.data.filter((el) =>
@@ -94,6 +100,17 @@ export default function initiativeReducer(state = dataInitial, action) {
       );
 
       return { ...state, data: filterArea };
+    }
+    case FILTER_BY_DATE: {
+      const filterDate = state.data.filter((el) =>
+        el.fecha_creacion.toLowerCase().includes(payload.toLowerCase())
+      );
+
+      return { ...state, data: filterDate };
+    }
+
+    case FILTER_BY_SEASONS_AND_STATUS: {
+      return { ...state, dataBySeasonsAndStatus: payload };
     }
     default:
       return { ...state };
@@ -132,10 +149,21 @@ export const filterByFourthTrimester = (dataFilterByT4) => (dispatch) => {
   dispatch({ type: FILTER_BY_FOURTH_TRIMESTER, payload: dataFilterByT4 });
 };
 
-export const filterByCountry = (dataByCountry) => (dispatch) => {
-  dispatch({ type: FILTER_BY_COUNTRY, payload: dataByCountry });
+export const filterByCountry = (dataByCountry, activeFilter) => (dispatch) => {
+  dispatch({
+    type: FILTER_BY_COUNTRY,
+    payload: { dataByCountry, activeFilter },
+  });
 };
 
 export const filterByArea = (dataByArea) => (dispatch) => {
   dispatch({ type: FILTER_BY_AREA, payload: dataByArea });
+};
+
+export const filterByDate = (dataByDate) => (dispatch) => {
+  dispatch({ type: FILTER_BY_DATE, payload: dataByDate });
+};
+
+export const filterBySeasonAndStatus = (data) => (dispatch) => {
+  dispatch({ type: FILTER_BY_SEASONS_AND_STATUS, payload: data });
 };

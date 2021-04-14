@@ -40,7 +40,7 @@ function Detail(props) {
 
   const getDataList = () => {
     axios
-      .get(`${config.api}/observaciones`)
+      .get(`${config.api_sheet}/observaciones`)
       .then((res) => {
         dispatch(getAllObservations(res.data));
       })
@@ -48,10 +48,11 @@ function Detail(props) {
         console.log(err);
       });
   };
+
   const getByInitiative = () => {
     const idParams = props.match.params.id;
     axios
-      .get(`${config.api}/iniciativas/${idParams}`)
+      .get(`${config.api_sheet}/base_2021/search?id=*${idParams}*`)
       .then((res) => {
         dispatch(getByIniatitive(res.data));
       })
@@ -59,29 +60,33 @@ function Detail(props) {
         console.log(err);
       });
   };
+
+  const isExisData = detailInitiative.length > 0;
   const data = [
     {
       title: "Titulo de iniciativa",
-      body: detailInitiative.titulo_proy,
+      body: isExisData ? detailInitiative[0].titulo_proy : "",
     },
     {
       title: "Estado",
-      body: detailInitiative.status,
+      body: isExisData ? detailInitiative[0].status : "",
     },
     {
       title: "Pais",
-      body: detailInitiative.pais,
+      body: isExisData ? detailInitiative[0].pais : "",
     },
     {
       title: "Gerencia",
-      body: detailInitiative.gerencia,
+      body: isExisData ? detailInitiative[0].gerencia : "",
     },
   ];
 
   const filter = async (action) => {
-    let resData = await axios.get(`${config.api}/observaciones`).then((res) => {
-      return res.data;
-    });
+    let resData = await axios
+      .get(`${config.api_sheet}/observaciones`)
+      .then((res) => {
+        return res.data;
+      });
     if (action === 1) {
       dispatch(filterTypeByMilestone(resData));
     } else if (action === 2) {
@@ -91,26 +96,35 @@ function Detail(props) {
     }
   };
 
-  const statusCapex =
-    detailInitiative.aux_capex === "r"
+  const statusCapex = isExisData
+    ? detailInitiative[0].aux_capex === "r"
       ? "var(--danger)"
-      : detailInitiative.aux_capex === "a"
+      : detailInitiative[0].aux_capex === "a"
       ? "yellow"
-      : "var(--green)";
+      : detailInitiative[0].aux_capex === "v"
+      ? "var(--green)"
+      : "var(--gray)"
+    : "";
 
-  const statusPlazo =
-    detailInitiative.aux_plazo === "r"
+  const statusPlazo = isExisData
+    ? detailInitiative[0].aux_plazo === "r"
       ? "var(--danger)"
-      : detailInitiative.aux_plazo === "a"
+      : detailInitiative[0].aux_plazo === "a"
       ? "yellow"
-      : "var(--green)";
+      : detailInitiative[0].aux_plazo === "v"
+      ? "var(--green)"
+      : "var(--gray)"
+    : "";
 
-  const statusBeneficio =
-    detailInitiative.aux_benef === "r"
+  const statusBeneficio = isExisData
+    ? detailInitiative[0].aux_benef === "r"
       ? "var(--danger)"
-      : detailInitiative.aux_benef === "a"
+      : detailInitiative[0].aux_benef === "a"
       ? "yellow"
-      : "var(--green)";
+      : detailInitiative[0].aux_capex === "v"
+      ? "var(--green)"
+      : "var(--gray)"
+    : "";
   return (
     <>
       <Header
@@ -126,7 +140,9 @@ function Detail(props) {
           <ColContainer style={{ gridColumn: "1/3" }}>
             <TitleStyled>Objetivo de la iniciativa</TitleStyled>
             <Item>
-              <BodyStyled> {detailInitiative.obj_proy}</BodyStyled>
+              <BodyStyled>
+                {isExisData ? detailInitiative[0].obj_proy : ""}
+              </BodyStyled>
             </Item>
           </ColContainer>
           <ColContainer style={{ gridColumn: "0" }}>
@@ -140,10 +156,12 @@ function Detail(props) {
             </div>
             <Item>
               <BodyStyled>
-                Comprometido: {detailInitiative.fecha_fin_compr}
+                Comprometido:
+                {isExisData ? detailInitiative.fecha_fin_compr : ""}
               </BodyStyled>
               <BodyStyled>
-                Proyectado: {detailInitiative.fecha_fin_proy}
+                Proyectado:
+                {isExisData ? detailInitiative.fecha_fin_proy : ""}
               </BodyStyled>
             </Item>
           </ColContainer>
@@ -158,9 +176,13 @@ function Detail(props) {
             </div>
             <Item>
               <BodyStyled>
-                Comprometido: {detailInitiative.capex_compr}
+                Comprometido: {""}
+                {isExisData ? detailInitiative.capex_compr : ""}
               </BodyStyled>
-              <BodyStyled>Proyectado: {detailInitiative.capex_proy}</BodyStyled>
+              <BodyStyled>
+                Proyectado: {""}
+                {isExisData ? detailInitiative[0].capex_proy : ""}
+              </BodyStyled>
             </Item>
           </ColContainer>
           <ColContainer style={{ gridColumn: "0" }}>
@@ -174,9 +196,12 @@ function Detail(props) {
             </div>
             <Item>
               <BodyStyled>
-                Comprometido: {detailInitiative.benef_compr}
+                Comprometido: {""}
+                {isExisData ? detailInitiative[0].benef_compr : ""}
               </BodyStyled>
-              <BodyStyled>Proyectado: {detailInitiative.benef_proy}</BodyStyled>
+              <BodyStyled>
+                Proyectado: {isExisData ? detailInitiative[0].benef_proy : ""}
+              </BodyStyled>
             </Item>
           </ColContainer>
         </RowContainer>
@@ -212,17 +237,29 @@ function Detail(props) {
           <TitleStyled>Resumen</TitleStyled>
           <Card>
             <TitleCard>Descripción</TitleCard>
-            <BodyStyled> {detailInitiative.descr}</BodyStyled>
+            <BodyStyled>
+              {isExisData ? detailInitiative[0].descr : ""}
+            </BodyStyled>
             <TitleCard>Fecha de creación</TitleCard>
-            <BodyStyled> {detailInitiative.fecha_creacion}</BodyStyled>
+            <BodyStyled>
+              {isExisData ? detailInitiative[0].fecha_creacion : ""}
+            </BodyStyled>
             <TitleCard>Cliente interno</TitleCard>
-            <BodyStyled> {detailInitiative.ing_exop}</BodyStyled>
+            <BodyStyled>
+              {isExisData ? detailInitiative[0].ing_exop : ""}
+            </BodyStyled>
             <TitleCard>Ingeniero a cargo</TitleCard>
-            <BodyStyled> {detailInitiative.cliente_int}</BodyStyled>
+            <BodyStyled>
+              {isExisData ? detailInitiative[0].cliente_int : ""}
+            </BodyStyled>
             <TitleCard>Ingeniero backup</TitleCard>
-            <BodyStyled> {detailInitiative.ing_exop_b}</BodyStyled>
+            <BodyStyled>
+              {isExisData ? detailInitiative[0].ing_exop_b : " "}
+            </BodyStyled>
             <TitleCard>Link de repositorio</TitleCard>
-            <BodyStyled> {detailInitiative.link_repo}</BodyStyled>
+            <BodyStyled>
+              {isExisData ? detailInitiative[0].link_repo : ""}
+            </BodyStyled>
           </Card>
         </Col>
       </Row>

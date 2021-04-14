@@ -24,12 +24,12 @@ function AddItemList(props) {
   const handleConfirm = async () => {
     const dataNew = {
       id: Math.random(),
-      fecha: moment(new Date()).format("L"),
-      descripcion: value,
+      date: moment(new Date()).format("L"),
+      content: value,
       type: valueRadio,
     };
 
-    await axios.post(`${config.api}/observaciones`, dataNew);
+    await axios.post(`${config.api_sheet}/observaciones`, dataNew);
     setValueRadio("riesgo");
     dispatch(getAllObservations(dataListUpdate));
     setValue("");
@@ -51,8 +51,7 @@ function AddItemList(props) {
   };
 
   const deleteItem = async (id) => {
-    await axios.delete(`${config.api}/observaciones/${id}`);
-
+    await axios.delete(`${config.api_sheet}/observaciones/id/*${id}*`);
     dispatch(getAllObservations(dataListUpdate));
   };
 
@@ -80,14 +79,14 @@ function AddItemList(props) {
                       alignItems: "center",
                     }}
                   >
-                    <DateStyled>{el.fecha}</DateStyled>
+                    <DateStyled>{el.date}</DateStyled>
                     {visible[i] && (
                       <Icon onClick={() => deleteItem(el.id)}>
                         <DeleteOutlined />
                       </Icon>
                     )}
                   </div>
-                  <DescriptionStyled>{el.descripcion}</DescriptionStyled>
+                  <DescriptionStyled>{el.content}</DescriptionStyled>
                 </BodyStyled>
               </Item>
             </div>

@@ -26,11 +26,13 @@ function DrawerComponent(props) {
         width={400}
         footer={
           <FooterButton>
-            <Button
-              title={titleButton}
-              background="var(--blue-medium)"
-              onClick={handleAction}
-            />
+            {titleButton && (
+              <Button
+                title={titleButton}
+                background="var(--blue-medium)"
+                onClick={handleAction}
+              />
+            )}
             {titleButtonRight && (
               <Button title={titleButtonRight} background="var(--danger)" />
             )}

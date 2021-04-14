@@ -3,7 +3,10 @@ import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import Item from "../Default/Item";
-import { getDataByStatus } from "../../redux/initiative/initiativeDucks";
+import {
+  getDataByStatus,
+  clearFilterAll,
+} from "../../redux/initiative/initiativeDucks";
 
 export default function ChartFunnel(props) {
   const { data } = props;
@@ -15,9 +18,16 @@ export default function ChartFunnel(props) {
     dispatch(getDataByStatus(el));
   };
 
+  const clear = () => {
+    setActive("");
+    dispatch(clearFilterAll());
+  };
   return (
     <>
-      <TitleStyled>Embudo de gestión</TitleStyled>
+      <HeaderStyled>
+        <TitleStyled>Embudo de gestión</TitleStyled>
+        <Filter onClick={clear}>Todos</Filter>
+      </HeaderStyled>
       <Wrapper>
         {data.map((el, i) => {
           return (
@@ -136,4 +146,20 @@ const Right = styled.div`
     font-weight: bold;
     font-size: var(--subtitle);
   }
+`;
+
+const HeaderStyled = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const Filter = styled.div`
+  font-family: var(--font-opensans);
+  font-style: normal;
+  font-weight: normal;
+  font-size: var(--body);
+  line-height: 20px;
+  text-decoration-line: underline;
+  color: var(--blue-dark);
+  cursor: pointer;
 `;

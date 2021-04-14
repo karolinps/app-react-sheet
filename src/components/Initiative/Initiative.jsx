@@ -10,21 +10,27 @@ function Initiative(props) {
       ? "var(--danger)"
       : dataShow.aux_capex === "a"
       ? "yellow"
-      : "var(--green)";
+      : dataShow.aux_capex === "v"
+      ? "var(--green)"
+      : "var(--gray)";
 
   const statusPlazo =
     dataShow.aux_plazo === "r"
       ? "var(--danger)"
       : dataShow.aux_plazo === "a"
       ? "yellow"
-      : "var(--green)";
+      : dataShow.aux_plazo === "v"
+      ? "var(--green)"
+      : "var(--gray)";
 
   const statusBeneficio =
     dataShow.aux_benef === "r"
       ? "var(--danger)"
       : dataShow.aux_benef === "a"
       ? "yellow"
-      : "var(--green)";
+      : dataShow.aux_benef === "v"
+      ? "var(--green)"
+      : "var(--gray)";
 
   return (
     <Wrapper>

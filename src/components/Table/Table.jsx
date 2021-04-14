@@ -23,6 +23,7 @@ function TableComponent(props) {
   const [dataShow, setDataShow] = useState({});
   const dispatch = useDispatch();
 
+  console.log(dataTable)
   const showDrawer = (el) => {
     setDataShow(el);
     setVisible(true);
