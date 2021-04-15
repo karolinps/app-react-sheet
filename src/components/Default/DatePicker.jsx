@@ -1,45 +1,19 @@
 import React from "react";
 import styled from "styled-components";
 import { DatePicker, Space } from "antd";
-const { RangePicker } = DatePicker;
-// import moment from "moment";
 import PropTypes from "prop-types";
 
 function DatePickerComponet(props) {
-  const { onChangeDate } = props;
-  // const [dates, setDates] = useState([]);
-  // const [hackValue, setHackValue] = useState();
-
-  // const disabledDate = (current) => {
-  //   if (!dates || dates.length === 0) {
-  //     return false;
-  //   }
-  //   const tooLate = dates[0] && current.diff(dates[0], "days") > 7;
-  //   const tooEarly = dates[1] && dates[1].diff(current, "days") > 7;
-  //   return tooEarly || tooLate;
-  // };
-
-  // const onOpenChange = (open) => {
-  //   if (open) {
-  //     setHackValue([]);
-  //     setDates([]);
-  //   } else {
-  //     setHackValue(undefined);
-  //   }
-  // };
+  const { onChangeDate, placeholder } = props;
 
   return (
     <Wrapper>
       <Space direction="vertical">
-        <RangePicker
+        <DatePicker
           bordered={false}
           allowClear={true}
-          placeholder={["Desde", "Hasta"]}
-          // value={hackValue || value}
-          // disabledDate={disabledDate}
-          // onCalendarChange={(val) => setDates(val)}
+          placeholder={placeholder}
           onChange={onChangeDate}
-          // onOpenChange={onOpenChange}
         />
       </Space>
     </Wrapper>
@@ -48,6 +22,7 @@ function DatePickerComponet(props) {
 
 DatePickerComponet.propTypes = {
   onChangeDate: PropTypes.func,
+  placeholder: PropTypes.string,
 };
 export default DatePickerComponet;
 

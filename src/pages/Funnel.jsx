@@ -48,19 +48,19 @@ function Funnel() {
   };
 
   const totalMetaAnio = () => {
-    let acum = allDataInitiatives.reduce(
-      (accu, currentValue) => accu + parseInt(currentValue.meta_benef_año),
-      0
-    );
-    return acum;
+    let number =
+      allDataInitiatives.length > 0
+        ? Math.max(...allDataInitiatives.map((el) => el.meta_benef_año))
+        : 0;
+    return number;
   };
 
   const totalMetaByCountry = () => {
-    let acum = allDataInitiatives.reduce(
-      (accu, currentValue) => accu + parseInt(currentValue.meta_pais),
-      0
-    );
-    return acum;
+    let number =
+      allDataInitiatives.length > 0
+        ? Math.max(...allDataInitiatives.map((el) => el.meta_pais))
+        : 0;
+    return number;
   };
 
   //Total promedio real / plan
@@ -77,6 +77,7 @@ function Funnel() {
 
   const validateByFilterCountry =
     activeFilter === true ? totalMetaByCountry() : totalMetaAnio();
+
   const data = [
     {
       title: "Plan",
@@ -103,15 +104,19 @@ function Funnel() {
   const titleHeader = [
     {
       title: "#",
+      width: 10,
     },
     {
       title: "Título",
+      width: 20,
     },
     {
       title: "Estado",
+      width: 20,
     },
     {
       title: "Ultima revisión",
+      width: 30,
     },
   ];
 

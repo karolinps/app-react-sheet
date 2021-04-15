@@ -82,20 +82,29 @@ function TableComponent(props) {
       {drawer}
       <HeaderContainer>
         <TitleStyled>Listado de iniciativas</TitleStyled>
-        <Filter
-          clear={clearFilter}
-          filterByT1={() => filter(1)}
-          filterByT2={() => filter(2)}
-          filterByT3={() => filter(3)}
-          filterByT4={() => filter(4)}
-        />
+        <div style={{ display: "none" }}>
+          <Filter
+            clear={clearFilter}
+            filterByT1={() => filter(1)}
+            filterByT2={() => filter(2)}
+            filterByT3={() => filter(3)}
+            filterByT4={() => filter(4)}
+          />
+        </div>
       </HeaderContainer>
       <Wrapper>
         <TableStyled>
           <thead>
             <tr>
               {titleHeader.map((el, i) => {
-                return <th key={i}>{el.title}</th>;
+                return (
+                  <th
+                    key={i}
+                    style={{ width: el.width ? `${el.width}%` : "auto" }}
+                  >
+                    {el.title}
+                  </th>
+                );
               })}
             </tr>
           </thead>
@@ -115,6 +124,7 @@ function TableComponent(props) {
                     style={{
                       backgroundColor: hover === i ? "var(--blue-medium)" : "",
                       color: hover === i ? "#fff" : "",
+                      width: "10%",
                     }}
                   >
                     {el.id}
@@ -123,14 +133,16 @@ function TableComponent(props) {
                     style={{
                       backgroundColor: hover === i ? "var(--blue-medium)" : "",
                       color: hover === i ? "#fff" : "",
+                      width: "20%",
                     }}
                   >
-                    {el.titulo_proy}
+                    <p>{el.titulo_proy}</p>
                   </td>
                   <td
                     style={{
                       backgroundColor: hover === i ? "var(--blue-medium)" : "",
                       color: hover === i ? "#fff" : "",
+                      width: "20%",
                     }}
                   >
                     {el.status}
@@ -139,9 +151,10 @@ function TableComponent(props) {
                     style={{
                       backgroundColor: hover === i ? "var(--blue-medium)" : "",
                       color: hover === i ? "#fff" : "",
+                      width: "30%",
                     }}
                   >
-                    {el.ult_com}
+                    <p> {el.ult_com}</p>
                   </td>
                 </tr>
               );
@@ -177,6 +190,8 @@ const TableStyled = styled.table`
   width: 47.5vw;
   border-collapse: separate;
   border-spacing: 0.5em 1em;
+  table-layout: fixed;
+  word-break: break-all;
   // height: 100%;
   margin: -15px 0px;
   @media (min-width: 1223px) {
@@ -208,6 +223,14 @@ const TableStyled = styled.table`
     line-height: 20px;
     text-align: center;
     color: var(--blue-dark);
+    p {
+      margin: 1em 0.5em;
+      overflow: hidden;
+      height: 40px;
+      :hover {
+        overflow-y: auto;
+      }
+    }
   }
 `;
 

@@ -146,13 +146,6 @@ function GridTableComponent() {
       el.estacion !== "Quito"
   );
 
-  const totalAllBySeasons =
-    counterBySeasonSCL.length +
-    counterBySeasonBOG.length +
-    counterBySeasonMDE.length +
-    counterBySeasonUIO.length +
-    counterBySeasonOtros.length;
-
   //by status
   const counteByL0 = statusL0.length;
   const counteByL1 = statusL1.length;
@@ -193,7 +186,7 @@ function GridTableComponent() {
       action: "l5All",
     },
     {
-      body: totalAll + totalAllBySeasons,
+      body: totalAll,
       action: "lStatusAll",
     },
   ];
@@ -770,30 +763,67 @@ function GridTableComponent() {
           </VerticalGrids>
           <VerticalGrids className="col-end">
             <Grid
-              style={{ marginBottom: "0.8em" }}
+              style={{
+                marginBottom: "0.8em",
+                backgroundColor:
+                  active === "sclAll"
+                    ? "var(--blue-medium)"
+                    : "var(--gray-low)",
+                color: active === "sclAll" ? "white" : "var(--blue-dark)",
+              }}
               onClick={() => handleActiveByAllSeasons("sclAll")}
             >
               {counterBySeasonSCL.length}
             </Grid>
             <Grid
-              style={{ marginBottom: "0.8em" }}
+              style={{
+                marginBottom: "0.8em",
+                backgroundColor:
+                  active === "bogAll"
+                    ? "var(--blue-medium)"
+                    : "var(--gray-low)",
+                color: active === "bogAll" ? "white" : "var(--blue-dark)",
+              }}
               onClick={() => handleActiveByAllSeasons("bogAll")}
             >
               {counterBySeasonBOG.length}
             </Grid>
             <Grid
-              style={{ marginBottom: "0.8em" }}
+              style={{
+                marginBottom: "0.8em",
+                backgroundColor:
+                  active === "medAll"
+                    ? "var(--blue-medium)"
+                    : "var(--gray-low)",
+                color: active === "medAll" ? "white" : "var(--blue-dark)",
+              }}
               onClick={() => handleActiveByAllSeasons("medAll")}
             >
               {counterBySeasonMDE.length}
             </Grid>
             <Grid
-              style={{ marginBottom: "0.8em" }}
+              style={{
+                marginBottom: "0.8em",
+                backgroundColor:
+                  active === "uioAll"
+                    ? "var(--blue-medium)"
+                    : "var(--gray-low)",
+                color: active === "uioAll" ? "white" : "var(--blue-dark)",
+              }}
               onClick={() => handleActiveByAllSeasons("uioAll")}
             >
               {counterBySeasonUIO.length}
             </Grid>
-            <Grid onClick={() => handleActiveByAllSeasons("otrosAll")}>
+            <Grid
+              onClick={() => handleActiveByAllSeasons("otrosAll")}
+              style={{
+                backgroundColor:
+                  active === "otrosAll"
+                    ? "var(--blue-medium)"
+                    : "var(--gray-low)",
+                color: active === "otrosAll" ? "white" : "var(--blue-dark)",
+              }}
+            >
               {counterBySeasonOtros.length}
             </Grid>
           </VerticalGrids>

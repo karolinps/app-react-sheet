@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Row, Col, message } from "antd";
+import { message } from "antd";
 import { withRouter } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-
-import Img from "../../assets/images/img-login.svg";
 
 import { login } from "../../redux/auth/authDucks";
 
@@ -40,43 +38,28 @@ function Login(props) {
 
   return (
     <Wrapper>
-      <Row>
-        <Col sm={0} lg={12} xs={0}>
-          <ImgStyled>
-            <img src={Img} />
-          </ImgStyled>
-        </Col>
-        <Col sm={24} lg={12} xs={24}>
-          <LoginFormStyled>
-            <form onSubmit={(ie) => handleLogin(ie, "correo")}>
-              <h1 className="title">Bienvenido</h1>
-              <input
-                placeholder="Correo electrónico"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <input
-                placeholder="Contraseña"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              <button type={"submit"}>Acceder</button>
-              {/* <button
-                type={"button"}
-                onClick={(ie) => handleLogin(ie, "google")}
-              >
-                Acceder por Gmail
-              </button> */}
-              <p>
-                ¿Olvido la contraseña? Tome contacto con alguien del equipo o en
-                &nbsp;
-                <span>exop@aerosan.com</span>
-              </p>
-            </form>
-          </LoginFormStyled>
-          <h2>Area de Excelencia Operacional</h2>
-        </Col>
-      </Row>
+      <LoginFormStyled>
+        <form onSubmit={(ie) => handleLogin(ie, "correo")}>
+          <Title className="title">Bienvenido</Title>
+          <InputStyled
+            placeholder="Correo electrónico"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <InputStyled
+            placeholder="Contraseña"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <Button type={"submit"}>Acceder</Button>
+          <p>
+            ¿Olvido la contraseña? Tome contacto con alguien del equipo o en
+            &nbsp;
+            <span>exop@aerosan.com</span>
+          </p>
+        </form>
+      </LoginFormStyled>
+      <TitleFooter>Area de Excelencia Operacional</TitleFooter>
     </Wrapper>
   );
 }
@@ -88,76 +71,65 @@ export default withRouter(Login);
 
 const Wrapper = styled.div`
   background: var(--gray-low);
-  .title {
-    color: var(--blue-dark);
-    font-family: var(--font-opensans);
-    text-align: center;
-    font-weight: 700;
-    font-size: 50px;
-    margin: 0;
-  }
-
-  h2 {
-    font-family: var(--font-opensans);
-    font-style: normal;
-    font-weight: bold;
-    font-size: 25px;
-    color: var(--blue-dark);
-    text-align: center;
-
-    @media (min-width: 992px) {
-      position: absolute;
-      bottom: 20px;
-      left: 0;
-      right: 0;
-    }
-  }
+`;
+const Title = styled.h1`
+  color: var(--blue-dark);
+  font-family: var(--font-opensans);
+  text-align: center;
+  font-weight: 700;
+  font-size: 50px;
+  margin: 0;
+`;
+const TitleFooter = styled.h1`
+  font-family: var(--font-opensans);
+  font-style: normal;
+  font-weight: bold;
+  font-size: 25px;
+  color: var(--blue-dark);
+  text-align: center;
+  position: absolute;
+  bottom: 20px;
+  left: 0;
+  right: 0;
+`;
+const InputStyled = styled.input`
+  width: 360px;
+  height: 52px;
+  left: 879px;
+  top: 387px;
+  background: #fff;
+  border-radius: 5px;
+  margin: 0.8em 0;
+  border: none;
+  outline: none;
+  width: 100%;
+  padding: 0 1em;
 `;
 
-const ImgStyled = styled.div`
-  img {
-    height: 100vh;
-  }
+const Button = styled.button`
+  background: var(--blue-medium);
+  border-radius: 5px;
+  height: 52px;
+  color: #fff;
+  border: none;
+  font-size: 20px;
+  font-family: var(--font-roboto);
+  margin: 0.8em 0;
+  cursor: pointer;
+  outline: none;
+  width: 100%;
 `;
 
 const LoginFormStyled = styled.div`
   display: grid;
   justify-content: center;
-  margin: 2em 1em;
-  @media (min-width: 992px) {
-    position: absolute;
-    top: 45%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    margin: auto;
-  }
+  margin: auto;
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 30%;
 
-  input {
-    width: 360px;
-    height: 52px;
-    left: 879px;
-    top: 387px;
-    background: #fff;
-    border-radius: 5px;
-    margin: 0.8em 0;
-    border: none;
-    outline: none;
-    width: 100%;
-    padding: 0 1em;
-  }
-  button {
-    background: var(--blue-medium);
-    border-radius: 5px;
-    height: 52px;
-    color: #fff;
-    border: none;
-    font-size: 20px;
-    font-family: var(--font-roboto);
-    margin: 0.8em 0;
-    cursor: pointer;
-    outline: none;
-    width: 100%;
-  }
   p {
     text-align: center;
     font-family: var(--font-opensas);

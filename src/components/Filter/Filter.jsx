@@ -12,60 +12,54 @@ import {
   getAllData,
   filterByArea,
   filterByDate,
+  filterByStatus,
+  filterBySize,
+  filterByWave,
 } from "../../redux/initiative/initiativeDucks";
 import axios from "axios";
 import config from "../../config";
 
 const size = [
   {
-    label: "Grande",
-    value: "grande",
+    label: "Muy bajo",
+    value: "Muy bajo",
   },
   {
-    label: "Mediano",
-    value: "mediano",
+    label: "Bajo",
+    value: "Bajo",
   },
   {
-    label: "Pequeño",
-    value: "pequeño",
+    label: "Moderado",
+    value: "Moderado",
+  },
+  {
+    label: "Alto",
+    value: "Alto",
+  },
+  {
+    label: "Muy alto",
+    value: "Muy alto",
   },
 ];
 const status = [
   {
-    label: "Abiertos",
-    value: "abiertos",
+    label: "En proceso",
+    value: "En proceso",
   },
   {
-    label: "Pausados",
-    value: "mediano",
+    label: "Capturada",
+    value: "Capturada",
   },
   {
-    label: "Cerrados",
-    value: "cerrados",
+    label: "Algunos Problemas",
+    value: "Algunos Problemas",
   },
   {
-    label: "Eliminados",
-    value: "eliminados",
+    label: "Cancelada",
+    value: "Cancelada",
   },
 ];
-const profile = [
-  {
-    label: "Nuevos",
-    value: "nuevos",
-  },
-  {
-    label: "Críticos",
-    value: "mediano",
-  },
-  {
-    label: "Cerrados",
-    value: "cerrados",
-  },
-  {
-    label: "Eliminados",
-    value: "eliminados",
-  },
-];
+const profile = [];
 const country = [
   {
     label: "Chile",
@@ -82,30 +76,51 @@ const country = [
 ];
 const area = [
   {
-    label: "Import",
-    value: "import",
+    label: "Exportaciones",
+    value: "Exportaciones",
   },
   {
-    label: "Export",
-    value: "export",
+    label: "Importaciones",
+    value: "Importaciones",
   },
   {
     label: "Rampa",
     value: "Rampa",
   },
   {
-    label: "Sistemas",
-    value: "Sistemas",
+    label: "Pasajeros",
+    value: "Pasajeros",
+  },
+  {
+    label: "Mantenimiento",
+    value: "Mantenimiento",
+  },
+  {
+    label: "IT",
+    value: "IT",
+  },
+  {
+    label: "Recursos Humanos",
+    value: "Recursos Humanos",
+  },
+  {
+    label: "HSSEQ",
+    value: "HSSEQ",
+  },
+  {
+    label: "Finanzas",
+    value: "Finanzas",
   },
 ];
-const type = [
+const type = [];
+const wave = [
   {
-    label: "Ahorro",
-    value: "ahorro",
+    label: "Si",
+    value: "Si",
   },
   {
-    label: "Revenue Management",
-    value: "RevenueManagement",
+    label: "No",
+    value: "No",
   },
 ];
 
@@ -117,10 +132,13 @@ function Filter(props) {
   const selectTypeRef = useRef();
   const selectCountryRef = useRef();
   const selectAreaRef = useRef();
+  const selectWaveRef = useRef();
   const [selectedCountry, setSelectedCountry] = useState("");
   const [selectedArea, setSelectedArea] = useState("");
+  const [selectedStatus, setSelectedStatus] = useState("");
+  const [selectedSize, setSelectedSize] = useState("");
+  const [selectedWave, setSelectedWave] = useState("");
   const [dateFrom, setDateFrom] = useState("");
-  const [dateTo, setDateTo] = useState("");
 
   const dispacth = useDispatch();
 
@@ -131,9 +149,12 @@ function Filter(props) {
     selectTypeRef.current.select.clearValue();
     selectCountryRef.current.select.clearValue();
     selectAreaRef.current.select.clearValue();
+    selectWaveRef.current.select.clearValue();
     setSelectedCountry("");
+    setSelectedSize("");
+    setSelectedStatus("");
+    setSelectedWave("");
     setSelectedArea("");
-    setDateTo("");
     setDateFrom("");
 
     const resp = await axios.get(`${config.api_sheet}/base_2021`);
@@ -142,22 +163,23 @@ function Filter(props) {
     onClose();
   };
 
-  const handleChange = (e) => {
-    if (e !== null) {
+  const handleChange = (e, action) => {
+    if (e !== null && action === 1) {
       setSelectedCountry(e.value);
-    }
-  };
-
-  const handleChangeArea = (e) => {
-    if (e !== null) {
+    } else if (e !== null && action === 2) {
+      setSelectedStatus(e.value);
+    } else if (e !== null && action === 3) {
+      setSelectedSize(e.value);
+    } else if (e !== null && action === 4) {
       setSelectedArea(e.value);
+    } else if (e !== null && action === 5) {
+      setSelectedWave(e.value);
     }
   };
 
   const handleChangeDate = (dates, dateStrings) => {
-    console.log(dates, dateTo);
-    setDateFrom(moment(dateStrings[0]).format("DD/MM/YYYY"));
-    setDateTo(moment(dateStrings[1]).format("DD/MM/YYYY"));
+    console.log(dates, dateStrings);
+    setDateFrom(moment(dateStrings).format("DD/MM/YYYY"));
   };
 
   const getValue = (option) => {
@@ -169,11 +191,14 @@ function Filter(props) {
   const filter = async () => {
     dispacth(filterByCountry(selectedCountry, true));
     dispacth(filterByArea(selectedArea));
+    dispacth(filterByStatus(selectedStatus));
+    dispacth(filterBySize(selectedSize));
+    dispacth(filterByWave(selectedWave));
     dispacth(filterByDate(dateFrom));
 
     try {
       const resp = await axios.get(
-        `${config.api_sheet}/base_2021/search?pais=*${selectedCountry}*&area=*${selectedArea}*&fecha_creacion=*${dateFrom}`
+        `${config.api_sheet}/base_2021/search?pais=*${selectedCountry}*&area=*${selectedArea}*&fecha_creacion=*${dateFrom}*&status=*${selectedStatus}*&aux_impacto_capex=*${selectedSize}*&en_wave=*${selectedWave}`
       );
       dispacth(getAllData(resp.data));
       onClose();
@@ -198,13 +223,17 @@ function Filter(props) {
           options={size}
           placeholder={"Tamaño"}
           useRef={selectSizeRef}
-          handleChange={handleChange}
+          getOptionLabel={getLabel}
+          getOptionValue={getValue}
+          handleChange={(e) => handleChange(e, 3)}
         />
         <Select
           options={status}
           placeholder={"Estado"}
           useRef={selectStatusRef}
-          handleChange={handleChange}
+          getOptionLabel={getLabel}
+          getOptionValue={getValue}
+          handleChange={(e) => handleChange(e, 2)}
         />
         <Select
           options={profile}
@@ -219,7 +248,7 @@ function Filter(props) {
           useRef={selectCountryRef}
           getOptionLabel={getLabel}
           getOptionValue={getValue}
-          handleChange={handleChange}
+          handleChange={(e) => handleChange(e, 1)}
         />
         <Select
           options={area}
@@ -227,17 +256,20 @@ function Filter(props) {
           useRef={selectAreaRef}
           getOptionLabel={getLabel}
           getOptionValue={getValue}
-          handleChange={handleChangeArea}
+          handleChange={(e) => handleChange(e, 4)}
         />
-        <DatePicker onChangeDate={handleChangeDate} />
-        {/* <Select
-          options={area}
+        <DatePicker
+          onChangeDate={handleChangeDate}
+          placeholder={"Fecha Creación"}
+        />
+        <Select
+          options={wave}
           placeholder={"¿Esta en wave?"}
-          useRef={'selectAreaRef'}
+          useRef={selectWaveRef}
           getOptionLabel={getLabel}
           getOptionValue={getValue}
-          handleChange={handleChangeArea}
-        /> */}
+          handleChange={(e) => handleChange(e, 5)}
+        />
         <FooterButton>
           <Button
             title="Aplicar filtros"

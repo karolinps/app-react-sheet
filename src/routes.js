@@ -44,8 +44,8 @@ const routes = [
     exact: true,
   },
   {
-    key: "projects",
-    path: "/projects",
+    key: "initiatives",
+    path: "/initiatives",
     component: Projects,
     exact: true,
   },

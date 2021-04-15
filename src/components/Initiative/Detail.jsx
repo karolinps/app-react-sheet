@@ -103,8 +103,8 @@ function Detail(props) {
       ? "yellow"
       : detailInitiative[0].aux_capex === "v"
       ? "var(--green)"
-      : "var(--gray)"
-    : "";
+      : ""
+    : "transparent";
 
   const statusPlazo = isExisData
     ? detailInitiative[0].aux_plazo === "r"
@@ -113,8 +113,8 @@ function Detail(props) {
       ? "yellow"
       : detailInitiative[0].aux_plazo === "v"
       ? "var(--green)"
-      : "var(--gray)"
-    : "";
+      : ""
+    : "transparent";
 
   const statusBeneficio = isExisData
     ? detailInitiative[0].aux_benef === "r"
@@ -123,17 +123,11 @@ function Detail(props) {
       ? "yellow"
       : detailInitiative[0].aux_capex === "v"
       ? "var(--green)"
-      : "var(--gray)"
+      : "transparent"
     : "";
   return (
     <>
-      <Header
-        title="Iniciativa"
-        icon={svgProjects}
-        btnLogout
-        inputSearch
-        placeholder="Seleccione proyecto"
-      />
+      <Header title="Iniciativa" icon={svgProjects} btnLogout />
       <ContainerItems data={data} />
       <>
         <RowContainer>

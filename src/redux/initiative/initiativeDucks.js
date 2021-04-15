@@ -7,6 +7,9 @@ const dataInitial = {
   filterCountry: "",
   filterArea: "",
   filterDate: "",
+  filterStatus: "",
+  filterSize: "",
+  filterWave: "",
   activeFilter: false,
   dataBySeasonsAndStatus: [],
 };
@@ -23,7 +26,10 @@ const FILTER_BY_THIRD_TRIMESTER = "FILTER_BY_THIRD_TRIMESTER";
 const FILTER_BY_FOURTH_TRIMESTER = "FILTER_BY_FOURTH_TRIMESTER";
 const FILTER_BY_COUNTRY = "FILTER_BY_COUNTRY";
 const FILTER_BY_AREA = "FILTER_BY_AREA";
+const FILTER_BY_STATUS = "FILTER_BY_STATUS";
+const FILTER_BY_SIZE = "FILTER_BY_SIZE";
 const FILTER_BY_DATE = "FILTER_BY_DATE";
+const FILTER_BY_WAVE = "FILTER_BY_WAVE";
 const FILTER_BY_SEASONS_AND_STATUS = "FILTER_BY_SEASONS_AND_STATUS";
 
 //Reducers
@@ -106,6 +112,27 @@ export default function initiativeReducer(state = dataInitial, action) {
 
       return { ...state, data: filterArea };
     }
+    case FILTER_BY_STATUS: {
+      const filterStatus = state.data.filter((el) =>
+        el.status.toLowerCase().includes(payload.toLowerCase())
+      );
+
+      return { ...state, data: filterStatus };
+    }
+    case FILTER_BY_SIZE: {
+      const filterSize = state.data.filter((el) =>
+        el.status.toLowerCase().includes(payload.toLowerCase())
+      );
+
+      return { ...state, data: filterSize };
+    }
+    case FILTER_BY_WAVE: {
+      const filterWave = state.data.filter((el) =>
+        el.en_wave.toLowerCase().includes(payload.toLowerCase())
+      );
+
+      return { ...state, data: filterWave };
+    }
     case FILTER_BY_DATE: {
       const filterDate = state.data.filter((el) =>
         el.fecha_creacion.toLowerCase().includes(payload.toLowerCase())
@@ -173,7 +200,15 @@ export const filterByCountry = (dataByCountry, activeFilter) => (dispatch) => {
 export const filterByArea = (dataByArea) => (dispatch) => {
   dispatch({ type: FILTER_BY_AREA, payload: dataByArea });
 };
-
+export const filterByStatus = (dataByStatus) => (dispatch) => {
+  dispatch({ type: FILTER_BY_STATUS, payload: dataByStatus });
+};
+export const filterBySize = (dataBySize) => (dispatch) => {
+  dispatch({ type: FILTER_BY_SIZE, payload: dataBySize });
+};
+export const filterByWave = (dataByWave) => (dispatch) => {
+  dispatch({ type: FILTER_BY_WAVE, payload: dataByWave });
+};
 export const filterByDate = (dataByDate) => (dispatch) => {
   dispatch({ type: FILTER_BY_DATE, payload: dataByDate });
 };

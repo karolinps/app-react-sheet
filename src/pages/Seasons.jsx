@@ -22,7 +22,6 @@ function Seasons() {
   const activeFilter = useSelector((store) => store.initiative.activeFilter);
   const [visible, setVisible] = React.useState(false);
 
-  console.log(dataBySeasonsAndStatus);
   const dispatch = useDispatch();
 
   React.useEffect(() => {
@@ -53,19 +52,19 @@ function Seasons() {
   };
 
   const totalMetaAnio = () => {
-    let acum = allDataInitiatives.reduce(
-      (accu, currentValue) => accu + parseInt(currentValue.meta_benef_año),
-      0
-    );
-    return acum;
+    let number =
+      allDataInitiatives.length > 0
+        ? Math.max(...allDataInitiatives.map((el) => el.meta_benef_año))
+        : 0;
+    return number;
   };
 
   const totalMetaByCountry = () => {
-    let acum = allDataInitiatives.reduce(
-      (accu, currentValue) => accu + parseInt(currentValue.meta_pais),
-      0
-    );
-    return acum;
+    let number =
+      allDataInitiatives.length > 0
+        ? Math.max(...allDataInitiatives.map((el) => el.meta_pais))
+        : 0;
+    return number;
   };
 
   //Total promedio real / plan
@@ -110,15 +109,19 @@ function Seasons() {
   const titleHeader = [
     {
       title: "#",
+      width: 10,
     },
     {
       title: "Título",
+      width: 20,
     },
     {
       title: "Estado",
+      width: 20,
     },
     {
       title: "Ultima revisión",
+      width: 30,
     },
   ];
 

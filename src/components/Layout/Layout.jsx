@@ -9,7 +9,7 @@ function LayoutComponent(props) {
     <Layout>
       <Content
         style={{
-          padding: 30,
+          padding: "20px 30px",
         }}
       >
         {props.children}

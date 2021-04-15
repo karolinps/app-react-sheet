@@ -12,7 +12,7 @@ function Initiative(props) {
       ? "yellow"
       : dataShow.aux_capex === "v"
       ? "var(--green)"
-      : "var(--gray)";
+      : "transparent";
 
   const statusPlazo =
     dataShow.aux_plazo === "r"
@@ -21,7 +21,7 @@ function Initiative(props) {
       ? "yellow"
       : dataShow.aux_plazo === "v"
       ? "var(--green)"
-      : "var(--gray)";
+      : "transparent";
 
   const statusBeneficio =
     dataShow.aux_benef === "r"
@@ -30,7 +30,7 @@ function Initiative(props) {
       ? "yellow"
       : dataShow.aux_benef === "v"
       ? "var(--green)"
-      : "var(--gray)";
+      : "transparent";
 
   return (
     <Wrapper>

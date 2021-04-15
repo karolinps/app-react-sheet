@@ -3,13 +3,19 @@ import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
-
 import Button from "./Button";
 import Filter from "../Filter/Filter";
 import InputSearch from "../Default/InputSearch";
 import iconBack from "../../assets/images/arrow_left.svg";
-
 import { logout } from "../../redux/auth/authDucks";
+
+import {
+  getByIniatitive,
+  getDataByStatus,
+  filterBySeasonAndStatus,
+} from "../../redux/initiative/initiativeDucks";
+
+import { getAllObservations } from "../../redux/observation/observationDucks";
 
 function Header(props) {
   const {
@@ -22,9 +28,12 @@ function Header(props) {
     placeholder,
     titleBtnNewItem,
     drawerShowForm,
+    dataShowSearch,
+    handleOnSelectSearch,
   } = props;
   const [visible, setVisible] = useState(false);
   const dispatch = useDispatch();
+
   const showDrawer = () => {
     setVisible(true);
   };
@@ -35,6 +44,10 @@ function Header(props) {
   const logoutSession = () => {
     dispatch(logout());
     props.history.push("/login");
+  };
+
+  const handleOnSearch = (string, results) => {
+    console.log(string, results);
   };
 
   const drawerFilter = <Filter visible={visible} onClose={onClose} />;
@@ -56,13 +69,25 @@ function Header(props) {
   ) : null;
 
   const isInputSearch = inputSearch ? (
-    <InputSearch placeholder={placeholder} />
+    <InputSearch
+      placeholder={placeholder}
+      handleOnSearch={handleOnSearch}
+      handleOnSelect={handleOnSelectSearch}
+      data={dataShowSearch}
+    />
   ) : null;
 
+  const backMenu = () => {
+    props.history.push("/dashboard");
+    dispatch(getByIniatitive(""));
+    dispatch(getDataByStatus({ data: [] }));
+    dispatch(filterBySeasonAndStatus([]));
+    dispatch(getAllObservations([]));
+  };
   return (
     <>
       {props.location.pathname !== "/dashboard" ? (
-        <ContainerBtnBack onClick={() => props.history.push("/dashboard")}>
+        <ContainerBtnBack onClick={backMenu}>
           <ImageArrow src={iconBack} />
           Volver
         </ContainerBtnBack>
@@ -105,6 +130,8 @@ Header.propTypes = {
   btnFilter: PropTypes.any,
   inputSearch: PropTypes.any,
   drawerShowForm: PropTypes.func,
+  dataShowSearch: PropTypes.array,
+  handleOnSelectSearch: PropTypes.func,
 };
 export default withRouter(Header);
 

@@ -42,7 +42,7 @@ const Wrapper = styled.div`
   }
   .block-menu {
     position: absolute;
-    top: 4em;
+    top: 5em;
     bottom: 1em;
     left: 0em;
     right: 0em;
