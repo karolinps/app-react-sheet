@@ -167,7 +167,7 @@ function Filter(props) {
     return option.label;
   };
   const filter = async () => {
-    dispacth(filterByCountry(selectedCountry));
+    dispacth(filterByCountry(selectedCountry, true));
     dispacth(filterByArea(selectedArea));
     dispacth(filterByDate(dateFrom));
 

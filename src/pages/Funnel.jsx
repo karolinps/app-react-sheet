@@ -75,9 +75,8 @@ function Funnel() {
     return prome;
   };
 
-  const validateByFilterCountry = activeFilter
-    ? totalMetaByCountry()
-    : totalMetaAnio();
+  const validateByFilterCountry =
+    activeFilter === true ? totalMetaByCountry() : totalMetaAnio();
   const data = [
     {
       title: "Plan",
@@ -178,7 +177,6 @@ function Funnel() {
     );
     return acum;
   };
-
 
   //Data grid
   const dataFunnel = [

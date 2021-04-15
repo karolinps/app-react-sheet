@@ -7,6 +7,7 @@ import { withRouter } from "react-router-dom";
 import Button from "./Button";
 import Filter from "../Filter/Filter";
 import InputSearch from "../Default/InputSearch";
+import iconBack from "../../assets/images/arrow_left.svg";
 
 import { logout } from "../../redux/auth/authDucks";
 
@@ -24,7 +25,6 @@ function Header(props) {
   } = props;
   const [visible, setVisible] = useState(false);
   const dispatch = useDispatch();
-
   const showDrawer = () => {
     setVisible(true);
   };
@@ -60,30 +60,42 @@ function Header(props) {
   ) : null;
 
   return (
-    <Wrapper>
-      {drawerFilter}
-      <LeftRightCol>
-        {icon ? (
-          <>
-            <CardStyled>
-              <Img src={icon} />
-            </CardStyled>
-            <TitleStyled>{title}</TitleStyled>
-          </>
-        ) : null}
-      </LeftRightCol>
-      <LeftRightCol>
-        {isInputSearch}
-        {isBtnNewItem}
-        {isBtnFilter}
-        {isBtnLogout}
-      </LeftRightCol>
-    </Wrapper>
+    <>
+      {props.location.pathname !== "/dashboard" ? (
+        <ContainerBtnBack onClick={() => props.history.push("/dashboard")}>
+          <ImageArrow src={iconBack} />
+          Volver
+        </ContainerBtnBack>
+      ) : (
+        <ContainerBtnBack></ContainerBtnBack>
+      )}
+
+      <Wrapper>
+        {drawerFilter}
+        <LeftRightCol>
+          {icon ? (
+            <>
+              <CardStyled>
+                <Img src={icon} />
+              </CardStyled>
+              <TitleStyled>{title}</TitleStyled>
+            </>
+          ) : null}
+        </LeftRightCol>
+        <LeftRightCol>
+          {isInputSearch}
+          {isBtnNewItem}
+          {isBtnFilter}
+          {isBtnLogout}
+        </LeftRightCol>
+      </Wrapper>
+    </>
   );
 }
 
 Header.propTypes = {
   history: PropTypes.object,
+  location: PropTypes.object,
   title: PropTypes.string,
   placeholder: PropTypes.string,
   titleBtnNewItem: PropTypes.string,
@@ -132,4 +144,18 @@ const Img = styled.img`
 `;
 const LeftRightCol = styled.div`
   display: flex;
+`;
+const ContainerBtnBack = styled.div`
+  font-family: var(--font-opensans);
+  font-style: normal;
+  font-weight: normal;
+  font-size: var(--body);
+  line-height: 20px;
+  color: var(--blue-dark);
+  margin-bottom: 1em;
+  cursor: pointer;
+`;
+
+const ImageArrow = styled.img`
+  margin-right: 0.5em;
 `;

@@ -210,7 +210,7 @@ function Detail(props) {
         <Col className="col-one">
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <TitleStyled>Timeline</TitleStyled>
-            <div style={{ display: "flex", alignItems: "center" }}>
+            <div style={{ display: "none", alignItems: "center" }}>
               <TitleLeft>Solo caso de negocio</TitleLeft>
               <Switch defaultChecked size="small" />
             </div>
@@ -237,7 +237,7 @@ function Detail(props) {
           <TitleStyled>Resumen</TitleStyled>
           <Card>
             <TitleCard>Descripción</TitleCard>
-            <BodyStyled>
+            <BodyStyled style={{ height: 200, overflowY: "auto" }}>
               {isExisData ? detailInitiative[0].descr : ""}
             </BodyStyled>
             <TitleCard>Fecha de creación</TitleCard>

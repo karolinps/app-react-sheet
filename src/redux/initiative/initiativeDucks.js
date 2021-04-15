@@ -16,6 +16,7 @@ const GET_DATA = "GET_DATA";
 const GET_DATA_BY_STATUS = "GET_DATA_BY_STATUS";
 const GET_BY_INITIATIVE = "GET_BY_INITIATIVE";
 const CLEAR_FILTER_ALL = "CLEAR_FILTER_ALL";
+const CLEAR_FILTER_ALL_SEASONS = "CLEAR_FILTER_ALL_SEASONS";
 const FILTER_BY_FIRST_TRIMESTER = "FILTER_BY_FIRST_TRIMESTER";
 const FILTER_BY_SECOND_TRIMESTER = "FILTER_BY_SECOND_TRIMESTER";
 const FILTER_BY_THIRD_TRIMESTER = "FILTER_BY_THIRD_TRIMESTER";
@@ -29,7 +30,6 @@ const FILTER_BY_SEASONS_AND_STATUS = "FILTER_BY_SEASONS_AND_STATUS";
 export default function initiativeReducer(state = dataInitial, action) {
   const { type, payload } = action;
 
-  console.log(payload);
   switch (type) {
     case GET_DATA:
       return { ...state, data: payload };
@@ -92,7 +92,12 @@ export default function initiativeReducer(state = dataInitial, action) {
       const filterCountry = state.data.filter((el) =>
         el.pais.includes(payload)
       );
-      return { ...state, data: filterCountry, activeFilter: true };
+
+      return {
+        ...state,
+        data: payload.dataByCountry === "" ? state.data : filterCountry,
+        activeFilter: payload.activeFilter,
+      };
     }
     case FILTER_BY_AREA: {
       const filterArea = state.data.filter((el) =>
@@ -112,6 +117,11 @@ export default function initiativeReducer(state = dataInitial, action) {
     case FILTER_BY_SEASONS_AND_STATUS: {
       return { ...state, dataBySeasonsAndStatus: payload };
     }
+    case CLEAR_FILTER_ALL_SEASONS:
+      return {
+        ...state,
+        dataBySeasonsAndStatus: [],
+      };
     default:
       return { ...state };
   }
@@ -131,6 +141,10 @@ export const getByIniatitive = (dataByInitiative) => (dispatch) => {
 
 export const clearFilterAll = () => (dispatch) => {
   dispatch({ type: CLEAR_FILTER_ALL, payload: [] });
+};
+
+export const clearFilterAllSeasons = () => (dispatch) => {
+  dispatch({ type: CLEAR_FILTER_ALL_SEASONS, payload: [] });
 };
 
 export const filterByFirstTrimester = (dataFilterByT1) => (dispatch) => {

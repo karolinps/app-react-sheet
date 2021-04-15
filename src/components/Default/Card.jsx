@@ -14,5 +14,6 @@ export default Card;
 
 const Wrapper = styled.div`
   background: #f3f3f3;
-  height: 95%;
+  height: 575px;
+  display: block;
 `;

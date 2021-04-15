@@ -2,7 +2,10 @@ import React from "react";
 import styled from "styled-components";
 // import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
-import { filterBySeasonAndStatus } from "../../redux/initiative/initiativeDucks";
+import {
+  filterBySeasonAndStatus,
+  clearFilterAllSeasons,
+} from "../../redux/initiative/initiativeDucks";
 
 function GridTableComponent() {
   // const { data } = props;
@@ -125,30 +128,30 @@ function GridTableComponent() {
   //Counter total by season
   const counterBySeasonSCL = allDataInitiatives.filter(
     (el) => el.estacion === "Santiago"
-  ).length;
+  );
   const counterBySeasonBOG = allDataInitiatives.filter(
     (el) => el.estacion === "Bogotá"
-  ).length;
+  );
   const counterBySeasonMDE = allDataInitiatives.filter(
     (el) => el.estacion === "Medellin"
-  ).length;
+  );
   const counterBySeasonUIO = allDataInitiatives.filter(
     (el) => el.estacion === "Quito"
-  ).length;
+  );
   const counterBySeasonOtros = allDataInitiatives.filter(
     (el) =>
       el.estacion !== "Santiago" &&
       el.estacion !== "Bogotá" &&
       el.estacion !== "Medellin" &&
       el.estacion !== "Quito"
-  ).length;
+  );
 
   const totalAllBySeasons =
-    counterBySeasonSCL +
-    counterBySeasonBOG +
-    counterBySeasonMDE +
-    counterBySeasonUIO +
-    counterBySeasonOtros;
+    counterBySeasonSCL.length +
+    counterBySeasonBOG.length +
+    counterBySeasonMDE.length +
+    counterBySeasonUIO.length +
+    counterBySeasonOtros.length;
 
   //by status
   const counteByL0 = statusL0.length;
@@ -167,24 +170,31 @@ function GridTableComponent() {
     },
     {
       body: counteByL0,
+      action: "l0All",
     },
     {
       body: counteByL1,
+      action: "l1All",
     },
     {
       body: counteByL2,
+      action: "l2All",
     },
     {
       body: counteByL3,
+      action: "l3All",
     },
     {
       body: counteByL4,
+      action: "l4All",
     },
     {
       body: counteByL5,
+      action: "l5All",
     },
     {
       body: totalAll + totalAllBySeasons,
+      action: "lStatusAll",
     },
   ];
 
@@ -300,9 +310,63 @@ function GridTableComponent() {
       setActive(action);
     }
   };
+
+  //Filter show data by status totales
+  const handleActiveByAllStatus = (action) => {
+    if (action === "l0All") {
+      dispacth(filterBySeasonAndStatus(statusL0));
+      setActive(action);
+    } else if (action === "l1All") {
+      dispacth(filterBySeasonAndStatus(statusL1));
+      setActive(action);
+    } else if (action === "l2All") {
+      dispacth(filterBySeasonAndStatus(statusL2));
+      setActive(action);
+    } else if (action === "l3All") {
+      dispacth(filterBySeasonAndStatus(statusL3));
+      setActive(action);
+    } else if (action === "l4All") {
+      dispacth(filterBySeasonAndStatus(statusL4));
+      setActive(action);
+    } else if (action === "l5All") {
+      dispacth(filterBySeasonAndStatus(statusL5));
+      setActive(action);
+    } else if (action === "lStatusAll") {
+      dispacth(filterBySeasonAndStatus(allDataInitiatives));
+      setActive(action);
+    }
+  };
+
+  //Filter show data by estaciones totales
+  const handleActiveByAllSeasons = (action) => {
+    if (action === "sclAll") {
+      dispacth(filterBySeasonAndStatus(counterBySeasonSCL));
+      setActive(action);
+    } else if (action === "bogAll") {
+      dispacth(filterBySeasonAndStatus(counterBySeasonBOG));
+      setActive(action);
+    } else if (action === "medAll") {
+      dispacth(filterBySeasonAndStatus(counterBySeasonMDE));
+      setActive(action);
+    } else if (action === "uioAll") {
+      dispacth(filterBySeasonAndStatus(counterBySeasonUIO));
+      setActive(action);
+    } else if (action === "otrosAll") {
+      dispacth(filterBySeasonAndStatus(counterBySeasonOtros));
+      setActive(action);
+    }
+  };
+
+  const clear = () => {
+    setActive("");
+    dispacth(clearFilterAllSeasons());
+  };
   return (
     <>
-      <TitleStyled>Portafolio de iniciativas</TitleStyled>
+      <HeaderStyled>
+        <TitleStyled>Portafolio de iniciativas</TitleStyled>
+        <Filter onClick={clear}>Todos</Filter>
+      </HeaderStyled>
       <Wrapper>
         {titleHeaderGrid.map((el, i) => {
           return <Grid key={i}>{el.title}</Grid>;
@@ -322,7 +386,7 @@ function GridTableComponent() {
                 backgroundColor:
                   active === "L0AndSCL"
                     ? "var(--blue-medium)"
-                    : "var(--gray-medium)",
+                    : "var(--gray-low)",
                 color: active === "L0AndSCL" ? "white" : "var(--blue-dark)",
               }}
               onClick={() => handleActiveByL0("L0AndSCL")}
@@ -335,7 +399,7 @@ function GridTableComponent() {
                 backgroundColor:
                   active === "L0AndBOG"
                     ? "var(--blue-medium)"
-                    : "var(--gray-medium)",
+                    : "var(--gray-low)",
                 color: active === "L0AndBOG" ? "white" : "var(--blue-dark)",
               }}
               onClick={() => handleActiveByL0("L0AndBOG")}
@@ -348,7 +412,7 @@ function GridTableComponent() {
                 backgroundColor:
                   active === "L0AndMED"
                     ? "var(--blue-medium)"
-                    : "var(--gray-medium)",
+                    : "var(--gray-low)",
                 color: active === "L0AndMED" ? "white" : "var(--blue-dark)",
               }}
               onClick={() => handleActiveByL0("L0AndMED")}
@@ -361,7 +425,7 @@ function GridTableComponent() {
                 backgroundColor:
                   active === "L0AndUIO"
                     ? "var(--blue-medium)"
-                    : "var(--gray-medium)",
+                    : "var(--gray-low)",
                 color: active === "L0AndUIO" ? "white" : "var(--blue-dark)",
               }}
               onClick={() => handleActiveByL0("L0AndUIO")}
@@ -374,7 +438,7 @@ function GridTableComponent() {
                 backgroundColor:
                   active === "L0AndOtros"
                     ? "var(--blue-medium)"
-                    : "var(--gray-medium)",
+                    : "var(--gray-low)",
                 color: active === "L0AndOtros" ? "white" : "var(--blue-dark)",
               }}
             >
@@ -388,7 +452,7 @@ function GridTableComponent() {
                 backgroundColor:
                   active === "L1AndSCL"
                     ? "var(--blue-medium)"
-                    : "var(--gray-medium)",
+                    : "var(--gray-low)",
                 color: active === "L1AndSCL" ? "white" : "var(--blue-dark)",
               }}
               onClick={() => handleActiveByL1("L1AndSCL")}
@@ -401,7 +465,7 @@ function GridTableComponent() {
                 backgroundColor:
                   active === "L1AndBOG"
                     ? "var(--blue-medium)"
-                    : "var(--gray-medium)",
+                    : "var(--gray-low)",
                 color: active === "L1AndBOG" ? "white" : "var(--blue-dark)",
               }}
               onClick={() => handleActiveByL1("L1AndBOG")}
@@ -414,7 +478,7 @@ function GridTableComponent() {
                 backgroundColor:
                   active === "L1AndMED"
                     ? "var(--blue-medium)"
-                    : "var(--gray-medium)",
+                    : "var(--gray-low)",
                 color: active === "L1AndMED" ? "white" : "var(--blue-dark)",
               }}
               onClick={() => handleActiveByL1("L1AndMED")}
@@ -427,7 +491,7 @@ function GridTableComponent() {
                 backgroundColor:
                   active === "L1AndUIO"
                     ? "var(--blue-medium)"
-                    : "var(--gray-medium)",
+                    : "var(--gray-low)",
                 color: active === "L1AndUIO" ? "white" : "var(--blue-dark)",
               }}
               onClick={() => handleActiveByL1("L1AndUIO")}
@@ -440,7 +504,7 @@ function GridTableComponent() {
                 backgroundColor:
                   active === "L1AndOtros"
                     ? "var(--blue-medium)"
-                    : "var(--gray-medium)",
+                    : "var(--gray-low)",
                 color: active === "L1AndOtros" ? "white" : "var(--blue-dark)",
               }}
             >
@@ -454,7 +518,7 @@ function GridTableComponent() {
                 backgroundColor:
                   active === "L2AndSCL"
                     ? "var(--blue-medium)"
-                    : "var(--gray-medium)",
+                    : "var(--gray-low)",
                 color: active === "L2AndSCL" ? "white" : "var(--blue-dark)",
               }}
               onClick={() => handleActiveByL2("L2AndSCL")}
@@ -467,7 +531,7 @@ function GridTableComponent() {
                 backgroundColor:
                   active === "L2AndBOG"
                     ? "var(--blue-medium)"
-                    : "var(--gray-medium)",
+                    : "var(--gray-low)",
                 color: active === "L2AndBOG" ? "white" : "var(--blue-dark)",
               }}
               onClick={() => handleActiveByL2("L2AndBOG")}
@@ -480,7 +544,7 @@ function GridTableComponent() {
                 backgroundColor:
                   active === "L2AndMED"
                     ? "var(--blue-medium)"
-                    : "var(--gray-medium)",
+                    : "var(--gray-low)",
                 color: active === "L2AndMED" ? "white" : "var(--blue-dark)",
               }}
               onClick={() => handleActiveByL2("L2AndMED")}
@@ -499,7 +563,7 @@ function GridTableComponent() {
                 backgroundColor:
                   active === "L2AndOtros"
                     ? "var(--blue-medium)"
-                    : "var(--gray-medium)",
+                    : "var(--gray-low)",
                 color: active === "L2AndOtros" ? "white" : "var(--blue-dark)",
               }}
             >
@@ -513,7 +577,7 @@ function GridTableComponent() {
                 backgroundColor:
                   active === "L3AndSCL"
                     ? "var(--blue-medium)"
-                    : "var(--gray-medium)",
+                    : "var(--gray-low)",
                 color: active === "L3AndSCL" ? "white" : "var(--blue-dark)",
               }}
               onClick={() => handleActiveByL3("L3AndSCL")}
@@ -526,7 +590,7 @@ function GridTableComponent() {
                 backgroundColor:
                   active === "L3AndBOG"
                     ? "var(--blue-medium)"
-                    : "var(--gray-medium)",
+                    : "var(--gray-low)",
                 color: active === "L3AndBOG" ? "white" : "var(--blue-dark)",
               }}
               onClick={() => handleActiveByL3("L3AndBOG")}
@@ -539,7 +603,7 @@ function GridTableComponent() {
                 backgroundColor:
                   active === "L3AndMED"
                     ? "var(--blue-medium)"
-                    : "var(--gray-medium)",
+                    : "var(--gray-low)",
                 color: active === "L3AndMED" ? "white" : "var(--blue-dark)",
               }}
               onClick={() => handleActiveByL3("L3AndMED")}
@@ -552,7 +616,7 @@ function GridTableComponent() {
                 backgroundColor:
                   active === "L3AndUIO"
                     ? "var(--blue-medium)"
-                    : "var(--gray-medium)",
+                    : "var(--gray-low)",
                 color: active === "L3AndUIO" ? "white" : "var(--blue-dark)",
               }}
               onClick={() => handleActiveByL3("L3AndUIO")}
@@ -565,7 +629,7 @@ function GridTableComponent() {
                 backgroundColor:
                   active === "L3AndOtros"
                     ? "var(--blue-medium)"
-                    : "var(--gray-medium)",
+                    : "var(--gray-low)",
                 color: active === "L3AndOtros" ? "white" : "var(--blue-dark)",
               }}
             >
@@ -579,7 +643,7 @@ function GridTableComponent() {
                 backgroundColor:
                   active === "L4AndSCL"
                     ? "var(--blue-medium)"
-                    : "var(--gray-medium)",
+                    : "var(--gray-low)",
                 color: active === "L4AndSCL" ? "white" : "var(--blue-dark)",
               }}
               onClick={() => handleActiveByL4("L4AndSCL")}
@@ -592,7 +656,7 @@ function GridTableComponent() {
                 backgroundColor:
                   active === "L4AndBOG"
                     ? "var(--blue-medium)"
-                    : "var(--gray-medium)",
+                    : "var(--gray-low)",
                 color: active === "L4AndBOG" ? "white" : "var(--blue-dark)",
               }}
               onClick={() => handleActiveByL4("L4AndBOG")}
@@ -605,7 +669,7 @@ function GridTableComponent() {
                 backgroundColor:
                   active === "L4AndMED"
                     ? "var(--blue-medium)"
-                    : "var(--gray-medium)",
+                    : "var(--gray-low)",
                 color: active === "L4AndMED" ? "white" : "var(--blue-dark)",
               }}
               onClick={() => handleActiveByL4("L4AndMED")}
@@ -618,7 +682,7 @@ function GridTableComponent() {
                 backgroundColor:
                   active === "L4AndUIO"
                     ? "var(--blue-medium)"
-                    : "var(--gray-medium)",
+                    : "var(--gray-low)",
                 color: active === "L4AndUIO" ? "white" : "var(--blue-dark)",
               }}
               onClick={() => handleActiveByL4("L4AndUIO")}
@@ -631,7 +695,7 @@ function GridTableComponent() {
                 backgroundColor:
                   active === "L4AndOtros"
                     ? "var(--blue-medium)"
-                    : "var(--gray-medium)",
+                    : "var(--gray-low)",
                 color: active === "L4AndOtros" ? "white" : "var(--blue-dark)",
               }}
             >
@@ -645,7 +709,7 @@ function GridTableComponent() {
                 backgroundColor:
                   active === "L5AndSCL"
                     ? "var(--blue-medium)"
-                    : "var(--gray-medium)",
+                    : "var(--gray-low)",
                 color: active === "L5AndSCL" ? "white" : "var(--blue-dark)",
               }}
               onClick={() => handleActiveByL5("L5AndSCL")}
@@ -658,7 +722,7 @@ function GridTableComponent() {
                 backgroundColor:
                   active === "L5AndBOG"
                     ? "var(--blue-medium)"
-                    : "var(--gray-medium)",
+                    : "var(--gray-low)",
                 color: active === "L5AndBOG" ? "white" : "var(--blue-dark)",
               }}
               onClick={() => handleActiveByL5("L5AndBOG")}
@@ -671,7 +735,7 @@ function GridTableComponent() {
                 backgroundColor:
                   active === "L5AndMED"
                     ? "var(--blue-medium)"
-                    : "var(--gray-medium)",
+                    : "var(--gray-low)",
                 color: active === "L5AndMED" ? "white" : "var(--blue-dark)",
               }}
               onClick={() => handleActiveByL5("L5AndMED")}
@@ -684,7 +748,7 @@ function GridTableComponent() {
                 backgroundColor:
                   active === "L5AndUIO"
                     ? "var(--blue-medium)"
-                    : "var(--gray-medium)",
+                    : "var(--gray-low)",
                 color: active === "L5AndUIO" ? "white" : "var(--blue-dark)",
               }}
               onClick={() => handleActiveByL5("L5AndUIO")}
@@ -697,7 +761,7 @@ function GridTableComponent() {
                 backgroundColor:
                   active === "L5AndOtros"
                     ? "var(--blue-medium)"
-                    : "var(--gray-medium)",
+                    : "var(--gray-low)",
                 color: active === "L5AndOtros" ? "white" : "var(--blue-dark)",
               }}
             >
@@ -705,15 +769,51 @@ function GridTableComponent() {
             </Grid>
           </VerticalGrids>
           <VerticalGrids className="col-end">
-            <Grid style={{ marginBottom: "0.8em" }}>{counterBySeasonSCL}</Grid>
-            <Grid style={{ marginBottom: "0.8em" }}>{counterBySeasonBOG}</Grid>
-            <Grid style={{ marginBottom: "0.8em" }}>{counterBySeasonMDE}</Grid>
-            <Grid style={{ marginBottom: "0.8em" }}>{counterBySeasonUIO}</Grid>
-            <Grid>{counterBySeasonOtros}</Grid>
+            <Grid
+              style={{ marginBottom: "0.8em" }}
+              onClick={() => handleActiveByAllSeasons("sclAll")}
+            >
+              {counterBySeasonSCL.length}
+            </Grid>
+            <Grid
+              style={{ marginBottom: "0.8em" }}
+              onClick={() => handleActiveByAllSeasons("bogAll")}
+            >
+              {counterBySeasonBOG.length}
+            </Grid>
+            <Grid
+              style={{ marginBottom: "0.8em" }}
+              onClick={() => handleActiveByAllSeasons("medAll")}
+            >
+              {counterBySeasonMDE.length}
+            </Grid>
+            <Grid
+              style={{ marginBottom: "0.8em" }}
+              onClick={() => handleActiveByAllSeasons("uioAll")}
+            >
+              {counterBySeasonUIO.length}
+            </Grid>
+            <Grid onClick={() => handleActiveByAllSeasons("otrosAll")}>
+              {counterBySeasonOtros.length}
+            </Grid>
           </VerticalGrids>
         </>
         {dataAll.map((el, i) => {
-          return <Grid key={i}>{el.body}</Grid>;
+          return (
+            <Grid
+              key={i}
+              onClick={() => handleActiveByAllStatus(el.action)}
+              style={{
+                backgroundColor:
+                  active === el.action
+                    ? "var(--blue-medium)"
+                    : "var(--gray-medium)",
+                color: active === el.action ? "white" : "var(--blue-dark)",
+              }}
+            >
+              {el.body}
+            </Grid>
+          );
         })}
       </Wrapper>
     </>
@@ -810,4 +910,20 @@ const TitleStyled = styled.h2`
   @media (max-width: 991px) {
     margin-top: 1em;
   }
+`;
+
+const HeaderStyled = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const Filter = styled.div`
+  font-family: var(--font-opensans);
+  font-style: normal;
+  font-weight: normal;
+  font-size: var(--body);
+  line-height: 20px;
+  text-decoration-line: underline;
+  color: var(--blue-dark);
+  cursor: pointer;
 `;

@@ -5,97 +5,98 @@ import PropTypes from "prop-types";
 
 function TimeLineComponennt(props) {
   const { data } = props;
+  const isExisData = data.length > 0;
   const dataTimeLine = [
     {
       title: "LO",
-      date: data.l0_idea,
+      date: isExisData ? data[0].l0_idea : null,
       description: "Idea capturada",
       children: [
         {
-          date: data.acta_1,
+          date: isExisData ? data[0].acta_1 : null,
           description: "Entregable #0 OK",
         },
       ],
     },
     {
       title: "L1",
-      date: data.l1_Identificacion,
+      date: isExisData ? data[0].l1_Identificacion : null,
       description: "Idea validada",
       children: [
         {
-          date: data.proc_criticos_2,
+          date: isExisData ? data[0].proc_criticos_2 : null,
           description: "Entregable #1 OK",
         },
         {
-          date: data.bc_3,
+          date: isExisData ? data[0].bc_3 : null,
           description: "Entregable #2 OK",
         },
         {
-          date: data.ppt_bc_4,
+          date: isExisData ? data[0].ppt_bc_4 : null,
           description: "Entregable #3 OK",
         },
       ],
     },
     {
       title: "L2",
-      date: data.l2_validacion,
+      date: isExisData ? data[0].l2_validacion : null,
       description: "Idea validada",
       children: [
         {
-          date: data.gantt_5,
+          date: isExisData ? data[0].gantt_5 : null,
           description: "Entregable #1 OK",
         },
         {
-          date: data.edt_6,
+          date: isExisData ? data[0].edt_6 : null,
           description: "Entregable #2 OK",
         },
         {
-          date: data.raci_7,
+          date: isExisData ? data[0].raci_7 : null,
           description: "Entregable #3 OK",
         },
         {
-          date: data.constitucion_8,
+          date: isExisData ? data[0].constitucion_8 : null,
           description: "Entregable #4 OK",
         },
       ],
     },
     {
       title: "L3",
-      date: data.l3_planeacion,
+      date: isExisData ? data[0].l3_planeacion : null,
       description: "Idea planeada",
       children: [
         {
-          date: data.control_costos_9,
+          date: isExisData ? data[0].control_costos_9 : null,
           description: "Entregable #1 OK",
         },
         {
-          date: data.cierre_proy_10,
+          date: isExisData ? data[0].cierre_proy_10 : null,
           description: "Entregable #2 OK",
         },
       ],
     },
     {
       title: "L4",
-      date: data.l4_implementacion,
+      date: isExisData ? data[0].l4_implementacion : null,
       description: "Idea implementada",
       children: [
         {
-          date: data.act_bc_11,
+          date: isExisData ? data[0].act_bc_11 : null,
           description: "Entregable #2 OK",
         },
         {
-          date: data.a3_12,
+          date: isExisData ? data[0].a3_12 : null,
           description: "Entregable #2 OK",
         },
       ],
     },
     {
       title: "L5",
-      date: data.l5_capturada,
+      date: isExisData ? data[0].l5_capturada : null,
       description: "Idea capturada",
       children: [
         {
-          date: data.traspaso_13,
+          date: isExisData ? data[0].traspaso_13 : null,
           description: "Entregable #2 OK",
         },
       ],
@@ -152,7 +153,7 @@ const Wrapper = styled.div`
     overflow-y: auto;
   }
   overflow: auto;
-  height: 80vh;
+  height: 540px;
   @media (max-width: 647px) {
     width: 80vw;
     overflow: auto;

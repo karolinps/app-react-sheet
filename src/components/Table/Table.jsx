@@ -13,6 +13,7 @@ import {
   filterBySecondTrimester,
   filterByThirdTrimester,
   filterByFourthTrimester,
+  clearFilterAllSeasons,
 } from "../../redux/initiative/initiativeDucks";
 import Filter from "./Filter";
 
@@ -23,7 +24,6 @@ function TableComponent(props) {
   const [dataShow, setDataShow] = useState({});
   const dispatch = useDispatch();
 
-  console.log(dataTable)
   const showDrawer = (el) => {
     setDataShow(el);
     setVisible(true);
@@ -59,6 +59,7 @@ function TableComponent(props) {
 
   const clearFilter = () => {
     dispatch(clearFilterAll());
+    dispatch(clearFilterAllSeasons());
   };
 
   const filter = async (action) => {
@@ -165,7 +166,8 @@ const Wrapper = styled.div`
     overflow-y: auto;
   }
   overflow: hidden;
-  height: 80vh;
+  display: block;
+  height: 575px;
   @media (max-width: 647px) {
     width: 80vw;
     overflow: auto;

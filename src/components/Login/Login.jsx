@@ -61,12 +61,12 @@ function Login(props) {
                 onChange={(e) => setPassword(e.target.value)}
               />
               <button type={"submit"}>Acceder</button>
-              <button
+              {/* <button
                 type={"button"}
                 onClick={(ie) => handleLogin(ie, "google")}
               >
                 Acceder por Gmail
-              </button>
+              </button> */}
               <p>
                 ¿Olvido la contraseña? Tome contacto con alguien del equipo o en
                 &nbsp;

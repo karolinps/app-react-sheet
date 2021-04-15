@@ -145,11 +145,7 @@ const DescriptionStyled = styled.p`
 const Container = styled.div`
   padding: 0.5em 1em;
   margin-bottom: 1em;
-  position: absolute;
-  right: 0;
-  left: 0;
-  bottom: 12em;
-  top: 0;
+  height: 400px;
   overflow: auto;
 `;
 const Footer = styled.div`
