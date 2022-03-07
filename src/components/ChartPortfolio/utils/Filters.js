@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import { Menu, Dropdown } from "antd";
+import { DownOutlined } from "@ant-design/icons";
+import styled from "styled-components";
 
 export const types = [
   { id: 1, name: "Tecnología", color: "rgba(49, 125, 222, 0.8)" },
@@ -16,7 +19,7 @@ const Filters = ({ getFilter }) => {
     display: "flex",
     alignItems: "center",
     padding: "0px 8px",
-    color: "#FFF",
+    color: "var(--blue-dark)",
     fontWeight: type.id === active.id ? "bold" : "normal",
     cursor: "pointer",
     userSelect: "none",
@@ -32,27 +35,30 @@ const Filters = ({ getFilter }) => {
     }
   };
 
+  const menu = (
+    <Menu>
+      {types.map((type) => (
+        <Menu.Item
+          key={type.id}
+          style={{ ...styleBase(type) }}
+          onClick={() => updateActiv(type)}
+        >
+          {type.name}
+        </Menu.Item>
+      ))}
+    </Menu>
+  );
   return (
-    <div
-      style={{
-        width: 150,
-        height: "100%",
-        paddingTop: "25px 0",
-        margin: "8em 0",
-      }}
-    >
-      <div>
-        {types.map((type) => (
-          <div
-            key={type.id}
-            style={{ backgroundColor: type.color, ...styleBase(type) }}
-            onClick={() => updateActiv(type)}
-          >
-            {type.name}
-          </div>
-        ))}
-      </div>
-    </div>
+    <>
+      <Dropdown overlay={menu} trigger={["click"]} placement="bottomRight">
+        <TitleLinkStyled
+          className="ant-dropdown-link"
+          onClick={(e) => e.preventDefault()}
+        >
+          Filtros <DownOutlined />
+        </TitleLinkStyled>
+      </Dropdown>
+    </>
   );
 };
 
@@ -60,3 +66,14 @@ Filters.propTypes = {
   getFilter: PropTypes.any,
 };
 export default Filters;
+
+const TitleLinkStyled = styled.a`
+  :hover {
+    color: var(--blue-dark);
+  }
+  font-family: var(--font-opensans);
+  font-style: normal;
+  font-weight: normal;
+  font-size: var(--body);
+  color: var(--blue-dark);
+`;

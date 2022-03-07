@@ -19,20 +19,20 @@ Button.propTypes = {
 export default Button;
 
 const ButtonStyled = styled.button`
-  height: 50px;
+  height: 40px;
   border: none;
   border-radius: 5px;
   color: #fff;
   font-family: var(--font-roboto);
   font-style: normal;
   font-weight: 500;
-  font-size: 20px;
-  line-height: 23px;
+  font-size: var(--subtitle);
+  line-height: 1.125em;
   display: flex;
   align-items: center;
   text-align: center;
   letter-spacing: 0.05em;
-  padding: 0 1.2em;
+  padding: 0 0.9em;
   margin: 0 0.2em;
   outline: none;
   cursor: pointer;

@@ -42,7 +42,7 @@ const Wrapper = styled.div`
   }
   .block-menu {
     position: absolute;
-    top: 4em;
+    top: 5em;
     bottom: 1em;
     left: 0em;
     right: 0em;
@@ -62,7 +62,7 @@ const Wrapper = styled.div`
     color: var(--blue-dark);
     font-style: normal;
     font-weight: bold;
-    font-size: 50px;
+    font-size: var(--title-big);
     text-align: center;
     letter-spacing: 0.05em;
     @media (min-width: 1600px) {
@@ -88,15 +88,12 @@ const Wrapper = styled.div`
       font-family: var(--font-opensans);
       font-style: normal;
       font-weight: bold;
-      font-size: 2em;
+      font-size: var(--title);
       line-height: 0px;
       letter-spacing: 0.05em;
       color: var(--blue-dark);
       @media (max-width: 991px) {
-        font-size: 20px;
-      }
-      @media (min-width: 1600px) {
-        font-size: 3em;
+        font-size: var(--body);
       }
     }
     svg {

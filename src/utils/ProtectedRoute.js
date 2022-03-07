@@ -1,16 +1,16 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
-import AuthContext from "../context/auth/AuthContext";
 import Layout from "../components/Layout/Layout";
+
 const ProtectedRoute = ({ component: Component, ...rest }) => {
-  const { currentUser } = useContext(AuthContext);
+  const userStorage = localStorage.getItem("user");
 
   return (
     <Route
       {...rest}
       render={(props) =>
-        currentUser ? (
+        userStorage ? (
           <Layout>
             <Component {...props} />
           </Layout>

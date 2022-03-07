@@ -6,14 +6,10 @@ const { Content } = Layout;
 
 function LayoutComponent(props) {
   return (
-    <Layout style={{ height: "100vh" }}>
+    <Layout>
       <Content
         style={{
-          position: "absolute",
-          top: 20,
-          bottom: 20,
-          left: 20,
-          right: 20,
+          padding: "20px 30px",
         }}
       >
         {props.children}

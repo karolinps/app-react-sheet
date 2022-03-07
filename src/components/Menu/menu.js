@@ -111,7 +111,7 @@ export const data = [
   },
 
   {
-    title: "Proyectos",
+    title: "Iniciativas",
     icon: (
       <svg
         width="130"
@@ -126,7 +126,7 @@ export const data = [
         />
       </svg>
     ),
-    route: "/projects",
+    route: "/initiatives",
   },
   {
     title: "Clientes",

@@ -46,6 +46,12 @@ const Slider = ({ yearsCreateAt, getSelectedYear }) => {
   );
 };
 
+Slider.propTypes = {
+  yearsCreateAt: PropTypes.any,
+  getSelectedYear: PropTypes.any,
+};
+export default Slider;
+
 const Wrapper = styled.div`
   width: calc(100% - 60px);
   float: right;
@@ -79,8 +85,3 @@ const Wrapper = styled.div`
   }
 `;
 
-Slider.propTypes = {
-  yearsCreateAt: PropTypes.any,
-  getSelectedYear: PropTypes.any,
-};
-export default Slider;

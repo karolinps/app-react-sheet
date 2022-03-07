@@ -110,35 +110,35 @@ function Customer() {
       number: "12",
       counter: "100",
       description: "Validación",
-      percentage: "80",
+      percentage: "90",
     },
     {
       number: "8",
       counter: "80",
       description: "Planeación",
-      percentage: "50",
+      percentage: "75",
     },
     {
       number: "12",
       counter: "20",
       description: "Implementación",
-      percentage: "50",
+      percentage: "60",
     },
     {
       number: "5",
       counter: "10",
       description: "Monitoreo",
-      percentage: "50",
+      percentage: "45",
     },
     {
       number: "4",
       counter: "120",
       description: "Captura",
-      percentage: "50",
+      percentage: "35",
     },
   ];
   return (
-    <Wrapper>
+    <>
       <Header
         title="Clientes"
         icon={svgCustomer}
@@ -149,7 +149,7 @@ function Customer() {
         titleBtnNewItem={"Nueva Oportunidad"}
       />
       <ContainerCounter data={data} />
-      <Row className="hidden-xs">
+      <Row>
         <Col>
           <ChartFunnel data={dataEmbudo} />
         </Col>
@@ -157,32 +157,28 @@ function Customer() {
           <TableComponent titleHeader={titleHeader} dataTable={dataTable} />
         </Col>
       </Row>
-    </Wrapper>
+    </>
   );
 }
 
 export default Customer;
 
-const Wrapper = styled.div`
-  margin: 10px;
-  @media (min-width: 767px) {
-    margin: 20px;
-  }
-`;
 const Row = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  @media (min-width: 767px) {
-    position: absolute;
-    right: 1.5em;
-    left: 1.5em;
-    bottom: 2em;
-    top: 15em;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-column-gap: 5px;
+  @media (max-width: 991px) {
+    grid-template-columns: repeat(1, 1fr);
   }
-}
+  @media (min-width: 992px) {
+    .col-one {
+      grid-column-start: 1;
+      grid-column-end: 2;
+    }
+    .col-two {
+      grid-column-start: 2;
+      grid-column-end: 5;
+    }
+  }
 `;
-const Col = styled.div`
-  flex: 1 0 18%;
-  margin: 5px;
-  position: relative;
-`;
+const Col = styled.div``;

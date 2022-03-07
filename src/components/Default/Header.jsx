@@ -1,13 +1,21 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
-import { useHistory } from "react-router-dom";
-
+import { withRouter } from "react-router-dom";
 import Button from "./Button";
 import Filter from "../Filter/Filter";
 import InputSearch from "../Default/InputSearch";
+import iconBack from "../../assets/images/arrow_left.svg";
+import { logout } from "../../redux/auth/authDucks";
 
-import { firebase } from "../../firebase/firebase";
+import {
+  getByIniatitive,
+  getDataByStatus,
+  filterBySeasonAndStatus,
+} from "../../redux/initiative/initiativeDucks";
+
+import { getAllObservations } from "../../redux/observation/observationDucks";
 
 function Header(props) {
   const {
@@ -19,9 +27,12 @@ function Header(props) {
     inputSearch,
     placeholder,
     titleBtnNewItem,
+    drawerShowForm,
+    dataShowSearch,
+    handleOnSelectSearch,
   } = props;
-  const history = useHistory();
   const [visible, setVisible] = useState(false);
+  const dispatch = useDispatch();
 
   const showDrawer = () => {
     setVisible(true);
@@ -30,15 +41,23 @@ function Header(props) {
     setVisible(false);
   };
 
-  const logout = async () => {
-    await firebase.auth().signOut();
-    history.push("/login");
+  const logoutSession = () => {
+    dispatch(logout());
+    props.history.push("/login");
+  };
+
+  const handleOnSearch = (string, results) => {
+    console.log(string, results);
   };
 
   const drawerFilter = <Filter visible={visible} onClose={onClose} />;
 
   const isBtnNewItem = btnNewItem ? (
-    <Button title={titleBtnNewItem} background="var(--blue-medium)" />
+    <Button
+      title={titleBtnNewItem}
+      background="var(--blue-medium)"
+      onClick={drawerShowForm}
+    />
   ) : null;
 
   const isBtnFilter = btnFilter ? (
@@ -46,37 +65,62 @@ function Header(props) {
   ) : null;
 
   const isBtnLogout = btnLogout ? (
-    <Button title="Salir" background="var(--danger)" onClick={logout} />
+    <Button title="Salir" background="var(--danger)" onClick={logoutSession} />
   ) : null;
 
   const isInputSearch = inputSearch ? (
-    <InputSearch placeholder={placeholder} />
+    <InputSearch
+      placeholder={placeholder}
+      handleOnSearch={handleOnSearch}
+      handleOnSelect={handleOnSelectSearch}
+      data={dataShowSearch}
+    />
   ) : null;
 
+  const backMenu = () => {
+    props.history.push("/dashboard");
+    dispatch(getByIniatitive(""));
+    dispatch(getDataByStatus({ data: [] }));
+    dispatch(filterBySeasonAndStatus([]));
+    dispatch(getAllObservations([]));
+  };
   return (
-    <Wrapper>
-      {drawerFilter}
-      <LeftRightCol>
-        {icon ? (
-          <>
-            <CardStyled>
-              <Img src={icon} />
-            </CardStyled>
-            <TitleStyled>{title}</TitleStyled>
-          </>
-        ) : null}
-      </LeftRightCol>
-      <LeftRightCol>
-        {isInputSearch}
-        {isBtnNewItem}
-        {isBtnFilter}
-        {isBtnLogout}
-      </LeftRightCol>
-    </Wrapper>
+    <>
+      {props.location.pathname !== "/dashboard" ? (
+        <ContainerBtnBack onClick={backMenu}>
+          <ImageArrow src={iconBack} />
+          Volver
+        </ContainerBtnBack>
+      ) : (
+        <ContainerBtnBack></ContainerBtnBack>
+      )}
+
+      <Wrapper>
+        {drawerFilter}
+        <LeftRightCol>
+          {icon ? (
+            <>
+              <CardStyled>
+                <Img src={icon} />
+              </CardStyled>
+              <TitleStyled>{title}</TitleStyled>
+            </>
+          ) : null}
+        </LeftRightCol>
+        <LeftRightCol>
+          {isInputSearch}
+          {isBtnNewItem}
+          {isBtnFilter}
+          {isBtnLogout}
+        </LeftRightCol>
+      </Wrapper>
+    </>
   );
 }
 
 Header.propTypes = {
+  history: PropTypes.object,
+  location: PropTypes.object,
   title: PropTypes.string,
   placeholder: PropTypes.string,
   titleBtnNewItem: PropTypes.string,
@@ -85,11 +129,14 @@ Header.propTypes = {
   btnNewItem: PropTypes.any,
   btnFilter: PropTypes.any,
   inputSearch: PropTypes.any,
+  drawerShowForm: PropTypes.func,
+  dataShowSearch: PropTypes.array,
+  handleOnSelectSearch: PropTypes.func,
 };
-export default Header;
+export default withRouter(Header);
 
 const Wrapper = styled.div`
-  @media (min-width: 767px) {
+  @media (min-width: 576px) {
     display: flex;
     justify-content: space-between;
   }
@@ -98,12 +145,13 @@ const TitleStyled = styled.h1`
   font-family: var(--font-opensans);
   font-style: normal;
   font-weight: bold;
-  font-size: 30px;
+  font-size: var(--title);
   letter-spacing: 0.05em;
   color: var(--blue-dark);
   margin-bottom: 0px;
   position: relative;
   left: 0.5em;
+  top: 0.25em;
 `;
 const CardStyled = styled.div`
   width: 50px;
@@ -122,8 +170,19 @@ const Img = styled.img`
   margin: auto;
 `;
 const LeftRightCol = styled.div`
-  @media (min-width: 767px) {
-    display: flex;
-    justify-content: space-between;
-  }
+  display: flex;
+`;
+const ContainerBtnBack = styled.div`
+  font-family: var(--font-opensans);
+  font-style: normal;
+  font-weight: normal;
+  font-size: var(--body);
+  line-height: 20px;
+  color: var(--blue-dark);
+  margin-bottom: 1em;
+  cursor: pointer;
+`;
+
+const ImageArrow = styled.img`
+  margin-right: 0.5em;
 `;

@@ -7,18 +7,28 @@ body {
 
 :root {
   --blue-dark: #072e6f;
+  --blue: #317dde;
   --blue-medium: #0060d9;
   --font-opensans: "Open Sans";
   --font-roboto: "Roboto";
   --gray-low: #f3f3f3;
   --gray-medium: #e5e5e5;
   --gray: #8a8a8a;
+  --gray-high: #c4c4c4;
+  --gray-dark: #4f4f50;
   --turquoise: #7de5fe;
   --danger: #d9001a;
+  --title: 1.875em;
+  --subtitle: 1.25em;
+  --body: 0.938em;
+  --body-big: 2.5em;
+  --title-big: 3.125em;
+  --hight-container: 80vh;
+  --green: #2ad70d;
 }
 
 .ant-layout {
-  background: #fff !important;
+  background: #ffff !important;
 }
 
 /*---Barra customer--*/
@@ -67,4 +77,39 @@ body {
   .ant-drawer-content-wrapper {
     width: 100% !important;
   }
+}
+
+.ant-switch-handle::before {
+  background: var(--blue-dark) !important;
+}
+.ant-switch-checked {
+  background: var(--gray-medium) !important;
+}
+.ant-switch-handle {
+  top: 1px !important;
+}
+.ant-switch-small {
+  height: 14px !important;
+}
+.ant-drawer-body {
+  padding: 20px !important;
+}
+.ant-drawer-header {
+  padding: 5px 20px !important;
+}
+.ant-radio-checked .ant-radio-inner {
+  border-color: white !important;
+}
+.ant-radio-inner::after {
+  position: absolute;
+  top: 0px !important;
+  left: 0px !important;
+  display: table;
+  width: 15px !important;
+  height: 15px !important;
+  background-color: var(--blue-dark) !important;
+}
+.ant-radio-inner {
+  background-color: var(--gray-high) !important;
+  border-color: var(--gray-high) !important;
 }

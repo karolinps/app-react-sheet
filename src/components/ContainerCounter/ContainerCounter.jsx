@@ -12,7 +12,9 @@ function ContainerCounter(props) {
           return (
             <Col key={i} xl={4}>
               <TitleStyled>{el.title}</TitleStyled>
-              <Item>{el.counter}</Item>
+              <Item>
+                <BodyStyled>{el.counter}</BodyStyled>
+              </Item>
             </Col>
           );
         })}
@@ -32,16 +34,18 @@ const Wrapper = styled.div`
 `;
 
 const Row = styled.div`
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  @media (max-width: 747px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
 `;
+
 const Col = styled.div`
-  flex: 1 0 18%;
   margin: 5px;
   font-family: Open Sans;
   font-style: normal;
   font-weight: bold;
-  font-size: 50px;
   line-height: 68px;
   text-align: center;
   color: var(--blue-dark);
@@ -50,8 +54,14 @@ const TitleStyled = styled.h1`
   font-family: var(--font-opensans);
   font-style: normal;
   font-weight: bold;
-  font-size: 20px;
+  font-size: var(--subtitle);
   line-height: 27px;
   color: var(--blue-dark);
   text-align: left;
+  @media screen and (min-width: 747px) and (max-width: 1195px) {
+    height: 40%;
+  }
+`;
+const BodyStyled = styled.p`
+  font-size: var(--body-big);
 `;

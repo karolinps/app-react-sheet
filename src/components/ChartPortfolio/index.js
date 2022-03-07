@@ -207,8 +207,10 @@ const Index = () => {
 
   return (
     <>
-      <TitleStyled>Portafolio de innovación</TitleStyled>
-
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <TitleStyled>Portafolio de innovación</TitleStyled>
+        <Filters getFilter={filterByType} />
+      </div>
       <Wrapper>
         <DivContainer>
           <ContainerChart>
@@ -228,7 +230,6 @@ const Index = () => {
               />
             </div>
           </ContainerChart>
-          <Filters getFilter={filterByType} />
         </DivContainer>
       </Wrapper>
     </>
@@ -238,34 +239,36 @@ const Index = () => {
 export default Index;
 
 const Wrapper = styled.div`
-  top: 3em;
-  bottom: 0em;
-  overflow: hidden;
-  left: 0em;
-  right: 0em;
-  position: absolute;
-  :hover {
-    overflow: auto;
-  }
-  @media (max-width: 767px) {
-    left: 0em;
-    right: 0em;
-    position: absolute;
-    top: auto;
-    bottom: auto;
-  }
+  // top: 3em;
+  // bottom: 0em;
+  // overflow: hidden;
+  // left: 0em;
+  // right: 0em;
+  // position: absolute;
+  // :hover {
+  //   overflow: auto;
+  // }
+  // @media (max-width: 767px) {
+  //   left: 0em;
+  //   right: 0em;
+  //   position: absolute;
+  //   top: auto;
+  //   bottom: auto;
+  // }
 `;
 
 const DivContainer = styled.div`
   background: #f4f4f4;
-  padding: 24px;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  width: 100%;
-  min-width: 750px;
-  @media (min-width: 1600px) {
-    height: 100%;
+  padding: 14px;
+  margin-left: 0.2em;
+  // display: flex;
+  // flex-direction: row;
+  // justify-content: center;
+  // width: 100%;
+  // min-width: 750px;
+  @media (max-width: 647px) {
+    width: 80vw;
+    overflow: auto;
   }
 `;
 
@@ -284,7 +287,8 @@ const TitleStyled = styled.h2`
   font-family: var(--font-opensans);
   font-style: normal;
   font-weight: bold;
-  font-size: 20px;
+  font-size: var(--subtitle);
   line-height: 27px;
   color: var(--blue-dark);
+  margin-left: 0.2em;
 `;
